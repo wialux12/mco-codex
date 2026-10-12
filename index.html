@@ -15,6 +15,8 @@
 <!-- SVG-спрайт с декоративными элементами -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.8v14.4a1 1 0 0 0 1.5.9l11.4-7.2a1 1 0 0 0 0-1.8L8.5 3.9A1 1 0 0 0 7 4.8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5.5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="6" cy="12" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="18" cy="18.5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m8.2 10.8 7.6-4.1M8.2 13.2l7.6 4.1" stroke="currentColor" stroke-width="1.8"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 15V6a2 2 0 0 1 2-2h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
   <symbol id="i-burst" viewBox="0 0 60 60"><path d="M30 6 22 26M46 14 32 30M52 34 34 36" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
@@ -70,14 +72,14 @@
       </div>
     </div>
 
-    <div class="hero__visual reveal" aria-hidden="true">
-      <span class="note note--hero">Думать головой — <br>это модно</span>
-      <img class="sticker sticker--hero float" src="assets/peter.webp" alt="" width="1127" height="1151">
-      <svg class="deco deco--burst-hero"><use href="#i-burst"/></svg>
-      <svg class="deco deco--cursor-hero"><use href="#i-cursor"/></svg>
-      <svg class="deco deco--spark-hero"><use href="#i-spark"/></svg>
-      <svg class="deco deco--tw1"><use href="#i-twinkle"/></svg>
-      <svg class="deco deco--tw2"><use href="#i-twinkle"/></svg>
+    <div class="hero__visual reveal">
+      <span class="note note--hero" aria-hidden="true">Думать головой — <br>это модно</span>
+      <img class="sticker sticker--hero float" src="assets/peter.webp" alt="Стикер: Пётр I" data-sticker="peter" role="button" tabindex="0" width="1127" height="1151">
+      <svg class="deco deco--burst-hero" aria-hidden="true"><use href="#i-burst"/></svg>
+      <svg class="deco deco--cursor-hero" aria-hidden="true"><use href="#i-cursor"/></svg>
+      <svg class="deco deco--spark-hero" aria-hidden="true"><use href="#i-spark"/></svg>
+      <svg class="deco deco--tw1" aria-hidden="true"><use href="#i-twinkle"/></svg>
+      <svg class="deco deco--tw2" aria-hidden="true"><use href="#i-twinkle"/></svg>
     </div>
 
     <article class="card card--blue codex-card reveal">
@@ -88,12 +90,12 @@
       <h2 class="codex-card__title">Кодекс этики</h2>
       <p class="codex-card__text">Простые и понятные правила поведения в&nbsp;цифровой среде.</p>
       <div class="codex-card__actions">
-        <button class="link" type="button" data-open="codex-dialog">Читать Кодекс <svg><use href="#i-arrow"/></svg></button>
+        <button class="link" type="button" data-codex="">Читать Кодекс <svg><use href="#i-arrow"/></svg></button>
         <button class="btn btn--outline btn--sm" type="button" data-copy="tpl-codex">Скопировать <svg><use href="#i-copy"/></svg></button>
       </div>
-      <svg class="deco deco--plane"><use href="#i-plane"/></svg>
-      <svg class="deco deco--dash1" viewBox="0 0 20 40"><path d="M16 2 4 38" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
-      <svg class="deco deco--dash2" viewBox="0 0 40 40"><path d="M34 6 6 34" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="10 6"/></svg>
+      <svg class="deco deco--plane" aria-hidden="true"><use href="#i-plane"/></svg>
+      <svg class="deco deco--dash1" aria-hidden="true" viewBox="0 0 20 40"><path d="M16 2 4 38" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <svg class="deco deco--dash2" aria-hidden="true" viewBox="0 0 40 40"><path d="M34 6 6 34" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="10 6"/></svg>
     </article>
   </section>
 
@@ -107,7 +109,8 @@
         <a class="btn btn--outline" href="#codex">Подробнее о проекте <svg><use href="#i-arrow"/></svg></a>
       </div>
 
-      <div class="orbit" aria-label="Ценности Кодекса: безопасность, уважение, ответственность, доверие, развитие">
+      <div class="values">
+      <div class="orbit" role="group" aria-label="Ценности Кодекса — нажмите, чтобы узнать подробнее">
         <svg class="orbit__svg" viewBox="0 0 320 260" aria-hidden="true">
           <defs>
             <radialGradient id="globe" cx="38%" cy="32%" r="75%">
@@ -136,11 +139,15 @@
           <circle cx="60" cy="168" r="4" class="orbit__dot orbit__dot--static"/>
           <circle cx="292" cy="196" r="3" class="orbit__dot orbit__dot--static"/>
         </svg>
-        <span class="pill pill--1">Безопасность</span>
-        <span class="pill pill--2">Уважение</span>
-        <span class="pill pill--3">Ответственность</span>
-        <span class="pill pill--4">Доверие</span>
-        <span class="pill pill--5">Развитие</span>
+        <button class="pill pill--1" type="button" aria-pressed="false" data-codex-key="РАЗДЕЛ 3" data-text="Берегите устройства, пароли и личные данные: не переходите по сомнительным ссылкам и не подключайтесь к неизвестным сетям.">Безопасность</button>
+        <button class="pill pill--2" type="button" aria-pressed="false" data-codex-key="Взаимоуважение." data-text="Уважайте мнение других, не оскорбляйте собеседников и поддерживайте конструктивный диалог.">Уважение</button>
+        <button class="pill pill--3" type="button" aria-pressed="false" data-codex-key="Ответственность." data-text="Вы отвечаете за информацию, которой делитесь. Прежде чем распространять — проверьте её.">Ответственность</button>
+        <button class="pill pill--4" type="button" aria-pressed="false" data-codex-key="Достоверность." data-text="Проверяйте источники, указывайте авторов и не выдавайте себя за другого человека.">Доверие</button>
+        <button class="pill pill--5" type="button" aria-pressed="false" data-codex-key="Свобода." data-text="Пользуйтесь возможностями цифрового пространства свободно и с пользой — в рамках закона и с уважением к другим.">Развитие</button>
+      </div>
+      <div class="value-card" id="value-card" aria-live="polite">
+        <p class="value-card__hint"><svg aria-hidden="true"><use href="#i-cursor"/></svg>Нажмите на ценность на орбите, чтобы узнать о ней</p>
+      </div>
       </div>
     </article>
 
@@ -159,7 +166,7 @@
         <div>
           <h3 class="sub__title">Для человека</h3>
           <p class="sub__text">Как безопасно и ответственно вести себя в&nbsp;цифровом мире.</p>
-          <button class="btn btn--outline btn--sm" type="button" data-open="codex-dialog">Читать правила <svg><use href="#i-arrow"/></svg></button>
+          <button class="btn btn--outline btn--sm" type="button" data-codex="РАЗДЕЛ 1">Читать правила <svg><use href="#i-arrow"/></svg></button>
         </div>
       </div>
 
@@ -194,10 +201,10 @@
         <p class="muted small">Памятка и примеры, которые помогут избежать рисков и получать достоверную информацию.</p>
         <button class="btn btn--outline btn--sm" type="button" data-copy="tpl-human">Скопировать инструкции <svg><use href="#i-copy"/></svg></button>
       </div>
-      <div class="ai__visual" aria-hidden="true">
-        <img class="sticker sticker--ai" src="assets/gogol.webp" alt="" width="1055" height="686" loading="lazy">
-        <svg class="deco deco--burst-ai"><use href="#i-burst"/></svg>
-        <svg class="deco deco--spark-ai"><use href="#i-spark"/></svg>
+      <div class="ai__visual">
+        <img class="sticker sticker--ai" src="assets/gogol.webp" alt="Стикер: Николай Гоголь" data-sticker="gogol" role="button" tabindex="0" width="1055" height="686" loading="lazy">
+        <svg class="deco deco--burst-ai" aria-hidden="true"><use href="#i-burst"/></svg>
+        <svg class="deco deco--spark-ai" aria-hidden="true"><use href="#i-spark"/></svg>
       </div>
     </article>
 
@@ -205,13 +212,16 @@
       <span class="chip">Этапы развития</span>
       <h2 class="h2 h2--sm">Дорожная <span class="accent">карта</span></h2>
       <ol class="steps">
-        <li class="step"><span class="step__num">1</span><span class="step__title">Разработка <br>Кодекса</span><span class="step__date">2025–2026</span></li>
-        <li class="step"><span class="step__num">2</span><span class="step__title">Интеграция <br>в образование</span><span class="step__date">2026</span></li>
-        <li class="step"><span class="step__num">3</span><span class="step__title">Популяризация <br>и амбассадоры</span><span class="step__date">2026–2027</span></li>
-        <li class="step"><span class="step__num">4</span><span class="step__title">Международное <br>развитие</span><span class="step__date">2027+</span></li>
+        <li class="step step--current"><button class="step__btn" type="button" aria-pressed="true" data-status="Идёт сейчас" data-text="Формулируем правила поведения в цифровой среде вместе с молодёжью, экспертами и педагогами."><span class="step__num">1</span><span class="step__title">Разработка <br>Кодекса</span><span class="step__date">2023–2026</span></button></li>
+        <li class="step"><button class="step__btn" type="button" aria-pressed="false" data-status="Следующий этап" data-text="Внедряем Кодекс в школы, колледжи и вузы: открытые уроки, памятки и материалы для педагогов."><span class="step__num">2</span><span class="step__title">Интеграция <br>в образование</span><span class="step__date">2026</span></button></li>
+        <li class="step"><button class="step__btn" type="button" aria-pressed="false" data-status="В планах" data-text="Развиваем сеть амбассадоров, которые рассказывают о Кодексе в своих регионах и соцсетях."><span class="step__num">3</span><span class="step__title">Популяризация <br>и амбассадоры</span><span class="step__date">2026–2027</span></button></li>
+        <li class="step"><button class="step__btn" type="button" aria-pressed="false" data-status="В планах" data-text="Делимся опытом с зарубежными партнёрами и продвигаем принципы безопасной цифровой среды."><span class="step__num">4</span><span class="step__title">Международное <br>развитие</span><span class="step__date">2027+</span></button></li>
       </ol>
       <span class="steps__end" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
-      <p class="roadmap__now"><span class="roadmap__dot" aria-hidden="true"></span>Сейчас: разработка Кодекса и пилотная интеграция в образование</p>
+      <div class="roadmap__detail" id="roadmap-detail" aria-live="polite">
+        <span class="roadmap__badge"><span class="roadmap__dot" aria-hidden="true"></span><span data-role="status">Идёт сейчас</span></span>
+        <p data-role="text">Формулируем правила поведения в цифровой среде вместе с молодёжью, экспертами и педагогами.</p>
+      </div>
     </article>
 
     <article class="card card--blue follow reveal" id="follow">
@@ -223,9 +233,9 @@
         <p class="muted small">Новости, новые материалы, возможности для участия.</p>
         <a class="btn btn--primary" href="#team">Узнать больше <svg><use href="#i-arrow"/></svg></a>
       </div>
-      <div class="follow__visual" aria-hidden="true">
-        <img class="sticker sticker--follow" src="assets/dal.webp" alt="" width="1110" height="803" loading="lazy">
-        <svg class="deco deco--burst-follow"><use href="#i-burst"/></svg>
+      <div class="follow__visual">
+        <img class="sticker sticker--follow" src="assets/dal.webp" alt="Стикер: Владимир Даль" data-sticker="dal" role="button" tabindex="0" width="1110" height="803" loading="lazy">
+        <svg class="deco deco--burst-follow" aria-hidden="true"><use href="#i-burst"/></svg>
       </div>
     </article>
   </section>
@@ -239,26 +249,34 @@
       </div>
       <p class="muted small">Исторические личности говорят о правилах цифровой среды — коротко, с юмором и по делу. Делитесь стикерами с друзьями.</p>
     </div>
-    <div class="marquee" aria-label="Стикеры">
-      <div class="marquee__track">
-        <img src="assets/peter.webp" alt="Пётр I: «Новое осваивай смело, но всяким инструментом владей с умом!»" loading="lazy">
-        <img src="assets/lomonosov.webp" alt="Ломоносов: «Я шёл пешком — и ты не торопись. Проверь, перепроверь — и только тогда делись!»" loading="lazy">
-        <img src="assets/ekaterina.webp" alt="Екатерина II: «В сети, как во дворе: цени не громкость слов, а их достоверность и пользу»" loading="lazy">
-        <img src="assets/nevsky.webp" alt="Александр Невский: «Кто с фальшивым голосом к нам придёт — тот в бан и пойдёт!»" loading="lazy">
-        <img src="assets/suvorov.webp" alt="Суворов: «Ученье — свет, а слепое доверие ИИ — тьма!»" loading="lazy">
-        <img src="assets/ivan.webp" alt="Иван Грозный: «Кто снимок мой без спроса хранит, тот доверия не заслужит!»" loading="lazy">
-        <img src="assets/minin.webp" alt="Минин и Пожарский: «Сеть для созидания, а не для смуты»" loading="lazy">
-        <img src="assets/gogol.webp" alt="Гоголь: «Поднимите мне веки, дайте ошибку ИИ разглядеть!»" loading="lazy">
-        <img src="assets/dal.webp" alt="Владимир Даль: «Машина слово молвит, да духа языка не ведает!»" loading="lazy">
+    <div class="carousel" id="sticker-carousel">
+      <div class="carousel__viewport" tabindex="0" role="region" aria-roledescription="карусель" aria-label="Стикерпак — листайте влево и вправо">
+        <div class="carousel__track">
+          <button class="carousel__item" type="button" data-sticker="peter" data-name="Пётр I" data-quote="«Новое осваивай смело, но всяким инструментом владей с умом!»" aria-label="Открыть стикер: Пётр I"><img src="assets/peter.webp" alt="Пётр I: «Новое осваивай смело, но всяким инструментом владей с умом!»" width="1127" height="1151" draggable="false" loading="lazy"></button>
+          <button class="carousel__item" type="button" data-sticker="lomonosov" data-name="Михаил Ломоносов" data-quote="«Я шёл пешком — и ты не торопись. Проверь, перепроверь — и только тогда делись!»" aria-label="Открыть стикер: Михаил Ломоносов"><img src="assets/lomonosov.webp" alt="Михаил Ломоносов: «Я шёл пешком — и ты не торопись. Проверь, перепроверь — и только тогда делись!»" width="1138" height="910" draggable="false" loading="lazy"></button>
+          <button class="carousel__item" type="button" data-sticker="ekaterina" data-name="Екатерина II" data-quote="«В сети, как во дворе: цени не громкость слов, а их достоверность и пользу»" aria-label="Открыть стикер: Екатерина II"><img src="assets/ekaterina.webp" alt="Екатерина II: «В сети, как во дворе: цени не громкость слов, а их достоверность и пользу»" width="1252" height="1077" draggable="false" loading="lazy"></button>
+          <button class="carousel__item" type="button" data-sticker="nevsky" data-name="Александр Невский" data-quote="«Кто с фальшивым голосом к нам придёт — тот в бан и пойдёт!»" aria-label="Открыть стикер: Александр Невский"><img src="assets/nevsky.webp" alt="Александр Невский: «Кто с фальшивым голосом к нам придёт — тот в бан и пойдёт!»" width="1208" height="858" draggable="false" loading="lazy"></button>
+          <button class="carousel__item" type="button" data-sticker="suvorov" data-name="Александр Суворов" data-quote="«Ученье — свет, а слепое доверие ИИ — тьма!»" aria-label="Открыть стикер: Александр Суворов"><img src="assets/suvorov.webp" alt="Александр Суворов: «Ученье — свет, а слепое доверие ИИ — тьма!»" width="1170" height="820" draggable="false" loading="lazy"></button>
+          <button class="carousel__item" type="button" data-sticker="ivan" data-name="Иван Грозный" data-quote="«Кто снимок мой без спроса хранит, тот доверия не заслужит!»" aria-label="Открыть стикер: Иван Грозный"><img src="assets/ivan.webp" alt="Иван Грозный: «Кто снимок мой без спроса хранит, тот доверия не заслужит!»" width="1105" height="1116" draggable="false" loading="lazy"></button>
+          <button class="carousel__item" type="button" data-sticker="minin" data-name="Минин и Пожарский" data-quote="«Сеть для созидания, а не для смуты»" aria-label="Открыть стикер: Минин и Пожарский"><img src="assets/minin.webp" alt="Минин и Пожарский: «Сеть для созидания, а не для смуты»" width="932" height="1150" draggable="false" loading="lazy"></button>
+          <button class="carousel__item" type="button" data-sticker="gogol" data-name="Николай Гоголь" data-quote="«Поднимите мне веки, дайте ошибку ИИ разглядеть!»" aria-label="Открыть стикер: Николай Гоголь"><img src="assets/gogol.webp" alt="Николай Гоголь: «Поднимите мне веки, дайте ошибку ИИ разглядеть!»" width="1055" height="686" draggable="false" loading="lazy"></button>
+          <button class="carousel__item" type="button" data-sticker="dal" data-name="Владимир Даль" data-quote="«Машина слово молвит, да духа языка не ведает!»" aria-label="Открыть стикер: Владимир Даль"><img src="assets/dal.webp" alt="Владимир Даль: «Машина слово молвит, да духа языка не ведает!»" width="1110" height="803" draggable="false" loading="lazy"></button>
+        </div>
+      </div>
+      <div class="carousel__controls">
+        <button class="carousel__btn" type="button" data-dir="-1" aria-label="Предыдущий стикер"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        <button class="carousel__btn" type="button" data-dir="1" aria-label="Следующий стикер"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        <button class="carousel__play" type="button" aria-pressed="true" aria-label="Остановить автопрокрутку"><span aria-hidden="true"></span></button>
+        <p class="carousel__hint">Листайте влево и вправо или нажмите наЛистайте, перетаскивайте мышкой или нажмите на&nbsp;стикер, чтобы увеличитьnbsp;стикер, чтобы увеличить</p>
       </div>
     </div>
   </section>
 
   <!-- ===== КОМАНДА / ФУТЕР ===== -->
   <footer class="card team reveal" id="team">
-    <div class="team__visual" aria-hidden="true">
-      <img class="sticker sticker--team" src="assets/minin.webp" alt="" width="932" height="1150" loading="lazy">
-      <svg class="deco deco--burst-team"><use href="#i-burst"/></svg>
+    <div class="team__visual">
+      <img class="sticker sticker--team" src="assets/minin.webp" alt="Стикер: Минин и Пожарский" data-sticker="minin" role="button" tabindex="0" width="932" height="1150" loading="lazy">
+      <svg class="deco deco--burst-team" aria-hidden="true"><use href="#i-burst"/></svg>
     </div>
 
     <div class="team__about">
@@ -291,7 +309,11 @@
     <button class="dialog__close" type="button" data-close aria-label="Закрыть">×</button>
     <span class="chip">Кодекс этики</span>
     <h2 class="h2 h2--sm" id="codex-title">Кодекс этики поведения детей и подростков в&nbsp;цифровой среде</h2>
-    <button class="btn btn--primary btn--sm" type="button" data-copy="tpl-codex">Скопировать Кодекс <svg><use href="#i-copy"/></svg></button>
+    <div class="dialog__tools">
+      <button class="btn btn--primary btn--sm" type="button" data-copy="tpl-codex">Скопировать Кодекс <svg><use href="#i-copy"/></svg></button>
+      <nav class="codex-toc" id="codex-toc" aria-label="Разделы Кодекса"></nav>
+    </div>
+    <span class="codex-progress" aria-hidden="true"><span id="codex-progress"></span></span>
   </div>
   <div class="codex-body" id="codex-body"></div>
 </dialog>
@@ -314,6 +336,28 @@
   <textarea class="copy-area" id="copy-area" readonly rows="9"></textarea>
 </dialog>
 
+<!-- Модалка: просмотр стикера -->
+<dialog class="dialog dialog--sticker" id="sticker-dialog" aria-labelledby="lb-name">
+  <button class="dialog__close" type="button" data-close aria-label="Закрыть">×</button>
+  <div class="lightbox">
+    <button class="lightbox__nav lightbox__nav--prev" type="button" data-step="-1" aria-label="Предыдущий стикер"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+    <figure class="lightbox__figure" id="lb-figure">
+      <img id="lb-img" src="data:," alt="" draggable="false">
+      <figcaption><b id="lb-name"></b><span id="lb-quote"></span></figcaption>
+    </figure>
+    <button class="lightbox__nav" type="button" data-step="1" aria-label="Следующий стикер"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+  </div>
+  <div class="lightbox__bar">
+    <span class="lightbox__count" id="lb-count"></span>
+    <div class="lightbox__actions">
+      <a class="btn btn--outline btn--sm" id="lb-download" href="#" download>Скачать <svg aria-hidden="true"><use href="#i-download"/></svg></a>
+      <button class="btn btn--primary btn--sm" id="lb-share" type="button">Поделиться <svg aria-hidden="true"><use href="#i-share"/></svg></button>
+    </div>
+  </div>
+</dialog>
+
+<button class="to-top" id="to-top" type="button" aria-label="Наверх"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <!-- Тексты для кнопок копирования -->
@@ -330,33 +374,33 @@
 
 Принимая во внимание, что цифровое пространство становится неотъемлемой частью жизни людей, предоставляет широкие возможности для взаимодействия, сотрудничества и развития,
 
-Осознавая важность формирования безопасного цифрового пространства, ответственного отношения к взаимодействию в цифровом пространстве, формирования ценностей молодежи, основанных на взаимоуважении
+Осознавая важность формирования безопасного цифрового пространства, ответственного отношения к взаимодействию в цифровом пространстве, формирования ценностей молодежи, основанных на взаимоуважении,
 
-Подтверждая, что создание открытого, глобально связанного, безопасного и заслуживающего доверия цифрового пространства для всех является одной из приоритетных задач общества и государства
+Подтверждая, что создание открытого, глобально связанного, безопасного и заслуживающего доверия цифрового пространства для всех является одной из приоритетных задач общества и государства,
 
 Поощряя гражданский диалог и активный обмен идеями и мнениями,
 
-Команда Молодежного цифрового омбудсмена представляет настоящий Кодекс этики поведения детей и подростков в цифровой среде (далее – Кодекс этики), устанавливающий этические правила поведения, которыми следует руководствоваться пользователям цифрового пространства.
+Команда Молодежного цифрового омбудсмена представляет настоящий Кодекс этики поведения детей и подростков в цифровой среде (далее — Кодекс этики), устанавливающий этические правила поведения, которыми следует руководствоваться пользователям цифрового пространства.
 
 РАЗДЕЛ 1. Человек и онлайн-среда
 
-Свобода. Каждый имеет право на доступ к сети Интернет, на свободное использование возможностей цифрового пространства, не нарушающее законодательство и не опровергающее традиционные духовно-нравственные ценности нашего общества.
+Свобода. Каждый имеет право на доступ к сети Интернет, на свободное использование возможностей цифрового пространства, не нарушающее законодательство и не противоречащее традиционным духовно-нравственным ценностям нашего общества.
 
 Достоверность. Проверяйте источники информации, к которым вы обращаетесь. Не распространяйте сведения из непроверенных источников, не предоставляющих убедительных доказательств. Если вы знаете, что информация ложная, не выдавайте её за правдивую.
 
 Ответственность. Помните, что вы несёте ответственность за распространение информации, которой вы решили поделиться.
 
-Открытость. Если вы цитируете слова или мысли, используете иные материалы (фото, видео, рисунки, схемы и т.п.) из другого источника, обязательно укажите ссылку на источник, автора. Делитесь информацией с добрыми намерениями и не делитесь информацией с исключительным намерением причинить вред другим.
+Открытость. Если вы цитируете слова или мысли, используете иные материалы (фото, видео, рисунки, схемы и т. п.) из другого источника, обязательно укажите ссылку на источник и автора. Делитесь информацией с добрыми намерениями и не делитесь информацией с исключительным намерением причинить вред другим.
 
-Солидарность. Стремитесь создавать и поддерживать сообщество, в котором к людям самого разного происхождения и культур относятся с уважением. Помните, что Россия - многонациональная страна. Не ущемляйте интересы любых категорий граждан, помните о том, что онлайн-среда инклюзивна.
+Солидарность. Стремитесь создавать и поддерживать сообщество, в котором к людям самого разного происхождения и культур относятся с уважением. Помните, что Россия — многонациональная страна. Не ущемляйте интересы любых категорий граждан, помните о том, что онлайн-среда инклюзивна.
 
 РАЗДЕЛ 2. Основные принципы цифровой среды
 
-Публичность. Общаясь в Интернете, уважайте взгляды других людей. Не пытайтесь намеренно оскорбить или обидеть другого пользователя, если вы сделали это непреднамеренно, принесите свои извинения. Поддерживайте конструктивный диалог.
+Публичность. Общаясь в Интернете, уважайте взгляды других людей. Не пытайтесь намеренно оскорбить или обидеть другого пользователя. Если вы сделали это непреднамеренно, принесите свои извинения. Поддерживайте конструктивный диалог.
 
 Честность. Не забывайте о том, что образ человека в Интернете может сильно отличаться от его реальной личности. Будьте осторожны. При этом сами не пытайтесь выдать себя за того, кем не являетесь. Не создавайте фейковые аккаунты.
 
-Прозрачность. Вы вправе распространять любую информацию о себе, но делайте это с особой осторожностью. Помните, что всё попадающее в Сеть в ней же и остается.
+Прозрачность. Вы вправе распространять любую информацию о себе, но делайте это с особой осторожностью. Помните, что всё, попадающее в Сеть, в ней же и остается.
 
 Нравственность. Помните, что ваш нравственный долг состоит в соблюдении границ личного пространства пользователей цифровой среды.
 
@@ -364,35 +408,35 @@
 
 Отзывчивость. Поддержите пользователей, столкнувшихся с травлей, обманом либо иным негативным воздействием от других людей в Интернете.
 
-Взаимоуважение. Уважайте мнение других пользователей и помните, что многие могут не согласиться с тем, что вы считаете очевидным и верным. Не переубеждайте людей в их взглядах, не иначе как если речь идёт о поощрении и уважении прав и свобод человека, пресечении дискриминации и проявлении уважения к каждому.
+Взаимоуважение. Уважайте мнение других пользователей и помните, что многие могут не согласиться с тем, что вы считаете очевидным и верным. Не переубеждайте людей в их взглядах, кроме случаев, когда речь идёт о поощрении и уважении прав и свобод человека, пресечении дискриминации и проявлении уважения к каждому.
 
 РАЗДЕЛ 3. Безопасность в онлайн-среде
 
 3.1. В целях предупреждения заражения устройства вирусами:
 
-• Не подключайтесь к неизвестным устройствам или сети. Это может заразить ваш гаджет зловредными вирусами, которые навредят не только вам, но и тем, с кем вы делитесь файлами.
+• Не подключайтесь к неизвестным устройствам или сетям. Это может заразить ваш гаджет зловредными вирусами, которые навредят не только вам, но и тем, с кем вы делитесь файлами.
 
-• Не переходите на неизвестные сайты или в приложения, они могут навредить вашему устройству или украсть персональные данные. Лучше выбрать проверенные источники или обратиться за консультацией к специалисту.
+• Не переходите на неизвестные сайты или в приложения: они могут навредить вашему устройству или украсть персональные данные. Лучше выбрать проверенные источники или обратиться за консультацией к специалисту.
 
 • Следите за состоянием своего устройства. Проверяйте его на наличие вирусов и регулярно проводите диагностику. Пользуясь «зараженным» ПК или мобильным телефоном, вы ставите под угрозу не только свои файлы и данные, но и состояние техники другого человека, который может подключиться к вашему гаджету.
 
-• Установите антивирусные программы
+• Установите антивирусные программы.
 
 3.2. Бережно и внимательно относитесь к своим паролям.
 
-• Не давайте свой телефон незнакомым людям, которым якобы нужно срочно позвонить или написать SMS, на самом деле они могут узнать пароли, логины, закачать вредоносное программное обеспечение для отслеживания и получения информации.
+• Не давайте свой телефон незнакомым людям, которым якобы нужно срочно позвонить или написать SMS: на самом деле они могут узнать пароли и логины, закачать вредоносное программное обеспечение для отслеживания и получения информации.
 
-• Используйте длинные и надежные пароли, а также биометрию (отпечатки пальцев, голос, изображение) и двойную систему подтверждения для платежей и денежных переводов. Нельзя, например, использовать даты своего рождения и близких родственников.
+• Используйте длинные и надежные пароли, а также биометрию (отпечатки пальцев, голос, изображение) и двойную систему подтверждения для платежей и денежных переводов. Нельзя, например, использовать свою дату рождения и даты рождения близких родственников.
 
-• Для различных цифровых платформ используйте разные пароли. Лучше их запоминать, а не записывать, если все же решили записать, храните их в разных местах и не по соседству с цифровыми устройствами, например, не в чехле телефона.
+• Для различных цифровых платформ используйте разные пароли. Лучше их запоминать, а не записывать. Если все же решили записать, храните их в разных местах и не по соседству с цифровыми устройствами, например не в чехле телефона.
 
 3.3. Следите за своим «цифровым следом» и «обучайте» алгоритмы цифровых платформ.
 
-• Следите за тем, что выкладываете в своих аккаунтах в социальных сетях, что и кому вы говорите, не говорите незнакомым свои личные данные.
+• Следите за тем, что выкладываете в своих аккаунтах в социальных сетях, что и кому вы говорите. Не говорите незнакомым свои личные данные.
 
-• Осознанно (а не «в один клик») добавляйте новые сообщества, страницы, друзей и т.д. У соцсетей есть алгоритмы, которые умеют давать то, что вам интересно, и убирать из ленты то, что неинтересно, на основании ваших посещений страниц, поставленных лайков, сделанных репостов и т.д.
+• Осознанно (а не «в один клик») добавляйте новые сообщества, страницы, друзей и т. д. У соцсетей есть алгоритмы, которые умеют давать то, что вам интересно, и убирать из ленты то, что неинтересно, на основании ваших посещений страниц, поставленных лайков, сделанных репостов и т. д.
 
-• Если единовременно вам понадобилась информации по теме, видеть информацию, по которой потом вы больше не хотите, — используйте режим браузера инкогнито, алгоритмы «не увидят» этого «цифрового следа» и не покажут информацию по этой теме.
+• Если вам единовременно понадобилась информация по теме, которую потом вы больше не хотите видеть, используйте режим браузера инкогнито: алгоритмы «не увидят» этого «цифрового следа» и не покажут информацию по этой теме.
 
 3.4. Выбрасывайте «информусор» и прощайтесь с «ненужными» людьми.
 
@@ -400,21 +444,21 @@
 
 • Критически относитесь к получаемой информации, проверяйте ее через различные источники (ресурсы).
 
-• Если сомневаетесь в полезности ресурса, отпишитесь, а затем некоторое время читайте его заходя на сайт/страницу самостоятельно – вы узнаете, реально ли он для вас полезен.
+• Если сомневаетесь в полезности ресурса, отпишитесь, а затем некоторое время читайте его, заходя на сайт/страницу самостоятельно, — вы узнаете, реально ли он для вас полезен.
 
-• Добавляйте в друзья людей, которые являются для вас авторитетом, которые умнее, опытнее, осведомленные вас в интересующих сферах.
+• Добавляйте в друзья людей, которые являются для вас авторитетом, которые умнее, опытнее, осведомленнее вас в интересующих сферах.
 
-• Систематически обновляйте список друзей, удаляйте тех, с кем не общаетесь, кого не знаете, кто публикует «бесполезный» по вашему мнению контент, который просто занимает ваше время. Не забывайте выражение: «скажи мне, кто твои друзья, и я скажу тебе, кто ты!».
+• Систематически обновляйте список друзей, удаляйте тех, с кем не общаетесь, кого не знаете, кто публикует «бесполезный» по вашему мнению контент, который просто занимает ваше время. Не забывайте выражение: «Скажи мне, кто твои друзья, и я скажу тебе, кто ты!»
 
 3.5. Используйте разные цифровые платформы для разных целей в зависимости от интересов. Это позволит оптимизировать работу алгоритмов каждой из них и поможет исключить дублирование информации.
 
-3.6. Следите за тем, какие приложения получают на ваших устройствах доступ и к чему, например, внимательно относитесь к разрешению доступа к местоположению, вашим фотографиям, к камере, микрофону.
+3.6. Следите за тем, какие приложения на ваших устройствах получают доступ и к чему. Например, внимательно относитесь к разрешению доступа к местоположению, вашим фотографиям, камере, микрофону.
 
 3.7. Обновляйте программы и операционные системы на всех устройствах.
 
-3.8. Осторожно относитесь к поступающей почте, не открывайте письма с сомнительных адресов, не переходите по ссылкам от незнакомых отправителей, там могут содержаться вредоносные программы.
+3.8. Осторожно относитесь к поступающей почте: не открывайте письма с сомнительных адресов, не переходите по ссылкам от незнакомых отправителей — там могут содержаться вредоносные программы.
 
-3.9. Будьте аккуратны при использовании публичных сетей Wi-Fi, не используйте при подключении к ним мобильные банки.
+3.9. Будьте аккуратны при использовании публичных сетей Wi-Fi: не используйте при подключении к ним мобильные банки.
 
 3.10. Не скачивайте программное обеспечение, игры, приложения с неизвестных, сомнительных сайтов.
 
