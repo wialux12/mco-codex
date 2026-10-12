@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="ru" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Кодекс этики — Молодёжный цифровой омбудсмен</title>
+<meta name="description" content="Кодекс этики цифровой среды: простые правила поведения в интернете и при работе с ИИ.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Manrope:wght@400;500;600;700&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body id="top">
+
+<!-- SVG-спрайт с декоративными элементами -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.8v14.4a1 1 0 0 0 1.5.9l11.4-7.2a1 1 0 0 0 0-1.8L8.5 3.9A1 1 0 0 0 7 4.8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 15V6a2 2 0 0 1 2-2h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-burst" viewBox="0 0 60 60"><path d="M30 6 22 26M46 14 32 30M52 34 34 36" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 40 40"><path d="M20 2v14M20 24v14M2 20h14M24 20h14M8 8l7 7M25 25l7 7M32 8l-7 7M15 25l-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-twinkle" viewBox="0 0 24 24"><path d="M12 2v6M12 16v6M2 12h6M16 12h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-cursor" viewBox="0 0 40 40"><path d="M6 4l26 12-11 3-5 11z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/></symbol>
+  <symbol id="i-star" viewBox="0 0 40 40"><path d="M20 3l4.9 10.6 11.6 1.3-8.6 7.8 2.4 11.4L20 28.3 9.7 34.1l2.4-11.4-8.6-7.8 11.6-1.3z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-plane" viewBox="0 0 64 64"><path d="M58 6 6 28l18 6 4 20 10-14 14 10z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><path d="M24 34 58 6 28 54" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/></symbol>
+</svg>
+
+<header class="header" id="header">
+  <div class="container header__inner">
+    <a class="logo" href="#top" aria-label="Молодёжный цифровой омбудсмен — на главную">
+      <span class="logo__mark" aria-hidden="true"></span>
+      <span class="logo__text">Молодёжный <br>цифровой омбудсмен</span>
+    </a>
+
+    <nav class="nav" id="nav" aria-label="Основная навигация">
+      <a href="#about">О проекте</a>
+      <a href="#codex">Кодекс этики</a>
+      <a href="#ai">Возможности</a>
+      <a href="#team">Команда</a>
+      <a href="#roadmap">Этапы</a>
+      <a href="#results">Результаты</a>
+      <a class="btn btn--primary nav__cta" href="#follow">#МЦОСобытие</a>
+    </nav>
+
+    <a class="btn btn--primary header__cta" href="#follow">#МЦОСобытие</a>
+
+    <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main class="container page">
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero__text reveal">
+      <span class="chip chip--lg">Кодекс этики</span>
+      <h1 class="hero__title">Цифровая среда — <br>это пространство <br><mark>для развития</mark></h1>
+      <p class="hero__lead">
+        Просвещаем в вопросах интернет-безопасности. <br>
+        Поддерживаем тех, кто столкнулся с угрозами в сети. <br>
+        Создаём возможности для молодёжи.
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn--primary btn--lg" href="#about">Узнать о проекте <svg><use href="#i-arrow"/></svg></a>
+        <button class="btn btn--outline btn--lg" type="button" data-open="video-dialog">
+          <svg class="play" aria-hidden="true"><use href="#i-play"/></svg>Смотреть видео
+        </button>
+      </div>
+    </div>
+
+    <div class="hero__visual reveal" aria-hidden="true">
+      <span class="note note--hero">Думать головой — <br>это модно</span>
+      <img class="sticker sticker--hero float" src="assets/peter.webp" alt="" width="1127" height="1151">
+      <svg class="deco deco--burst-hero"><use href="#i-burst"/></svg>
+      <svg class="deco deco--cursor-hero"><use href="#i-cursor"/></svg>
+      <svg class="deco deco--spark-hero"><use href="#i-spark"/></svg>
+      <svg class="deco deco--tw1"><use href="#i-twinkle"/></svg>
+      <svg class="deco deco--tw2"><use href="#i-twinkle"/></svg>
+    </div>
+
+    <article class="card card--blue codex-card reveal">
+      <svg class="codex-card__icon" viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M12 4h17l9 9v29a2 2 0 0 1-2 2H12a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+        <path d="M29 4v9h9M17 22h6M17 28h14M17 34h10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+      <h2 class="codex-card__title">Кодекс этики</h2>
+      <p class="codex-card__text">Простые и понятные правила поведения в&nbsp;цифровой среде.</p>
+      <a class="link" href="#codex">Читать Кодекс <svg><use href="#i-arrow"/></svg></a>
+      <svg class="deco deco--plane"><use href="#i-plane"/></svg>
+      <svg class="deco deco--dash1" viewBox="0 0 20 40"><path d="M16 2 4 38" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <svg class="deco deco--dash2" viewBox="0 0 40 40"><path d="M34 6 6 34" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="10 6"/></svg>
+    </article>
+  </section>
+
+  <!-- ===== ROW 2 ===== -->
+  <section class="row row--two">
+    <article class="card why reveal" id="about">
+      <div class="why__text">
+        <span class="chip">О проекте</span>
+        <h2 class="h2">Зачем нужен <br><span class="accent">Кодекс этики?</span></h2>
+        <p class="muted">Он помогает делать осознанный выбор в&nbsp;интернете, защищать себя и других, развивать критическое мышление и быть частью безопасного цифрового общества.</p>
+        <a class="btn btn--outline" href="#codex">Подробнее о проекте <svg><use href="#i-arrow"/></svg></a>
+      </div>
+
+      <div class="orbit" aria-label="Ценности Кодекса: безопасность, уважение, ответственность, доверие, развитие">
+        <svg class="orbit__svg" viewBox="0 0 320 260" aria-hidden="true">
+          <defs>
+            <radialGradient id="globe" cx="38%" cy="32%" r="75%">
+              <stop offset="0" stop-color="#E4EEFF"/>
+              <stop offset=".35" stop-color="#9DBDFF"/>
+              <stop offset=".75" stop-color="#4E80F2"/>
+              <stop offset="1" stop-color="#2B57D8"/>
+            </radialGradient>
+            <clipPath id="globe-clip"><circle cx="160" cy="130" r="62"/></clipPath>
+          </defs>
+          <ellipse class="orbit__ring" cx="160" cy="130" rx="150" ry="58" transform="rotate(-14 160 130)"/>
+          <ellipse class="orbit__ring orbit__ring--2" cx="160" cy="130" rx="118" ry="92" transform="rotate(28 160 130)"/>
+          <circle cx="160" cy="130" r="62" fill="url(#globe)"/>
+          <g clip-path="url(#globe-clip)" fill="#fff" opacity=".45">
+            <path d="M118 96c10-8 26-10 34-4 6 5-2 12 6 16 9 4 16-4 22 2 6 7-6 16-16 18-11 2-14 12-24 10-9-2-6-14-14-18-9-5-18-14-8-24z"/>
+            <path d="M176 150c8-4 18 0 20 8 2 9-6 16-14 22-6 4-12 0-12-8 0-8-2-18 6-22z"/>
+            <path d="M190 88c6-2 14 2 16 8-4 4-12 4-16 0z"/>
+          </g>
+          <g fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1">
+            <ellipse cx="160" cy="130" rx="62" ry="22"/>
+            <ellipse cx="160" cy="130" rx="26" ry="62"/>
+          </g>
+          <circle cx="146" cy="104" r="18" fill="#fff" opacity=".25"/>
+          <circle r="5" class="orbit__dot"><animateMotion dur="14s" repeatCount="indefinite" path="M10 130a150 58 0 1 0 300 0a150 58 0 1 0 -300 0" rotate="0"/></circle>
+          <circle r="4" class="orbit__dot"><animateMotion dur="18s" begin="-6s" repeatCount="indefinite" path="M42 130a118 92 0 1 1 236 0a118 92 0 1 1 -236 0"/></circle>
+          <circle cx="60" cy="168" r="4" class="orbit__dot orbit__dot--static"/>
+          <circle cx="292" cy="196" r="3" class="orbit__dot orbit__dot--static"/>
+        </svg>
+        <span class="pill pill--1">Безопасность</span>
+        <span class="pill pill--2">Уважение</span>
+        <span class="pill pill--3">Ответственность</span>
+        <span class="pill pill--4">Доверие</span>
+        <span class="pill pill--5">Развитие</span>
+      </div>
+    </article>
+
+    <article class="card principles reveal" id="codex">
+      <div class="principles__head">
+        <span class="chip">Кодекс этики</span>
+        <h2 class="h2">Принципы цифровой среды</h2>
+        <p class="muted small">Коротко о главных правилах. Полный текст Кодекса — в&nbsp;отдельном разделе.</p>
+      </div>
+
+      <div class="sub sub--blue">
+        <svg class="sub__icon" viewBox="0 0 40 40" aria-hidden="true">
+          <circle cx="20" cy="13" r="7" fill="none" stroke="currentColor" stroke-width="2.2"/>
+          <path d="M6 36c1-8 7-12 14-12s13 4 14 12z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <h3 class="sub__title">Для человека</h3>
+          <p class="sub__text">Как безопасно и ответственно вести себя в&nbsp;цифровом мире.</p>
+          <button class="btn btn--outline btn--sm" type="button" data-open="rules-dialog">Читать правила <svg><use href="#i-arrow"/></svg></button>
+        </div>
+      </div>
+
+      <div class="sub sub--lav">
+        <svg class="sub__icon" viewBox="0 0 40 40" aria-hidden="true">
+          <rect x="7" y="11" width="26" height="22" rx="7" fill="none" stroke="currentColor" stroke-width="2.2"/>
+          <path d="M20 11V6M17 5h6M3 20v6M37 20v6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+          <circle cx="15" cy="21" r="2.6" fill="currentColor"/><circle cx="25" cy="21" r="2.6" fill="currentColor"/>
+          <path d="M15 27.5h10" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <h3 class="sub__title">Для ИИ-агента</h3>
+          <p class="sub__text">Правила и подсказки для корректной работы и&nbsp;общения.</p>
+          <button class="btn btn--outline btn--sm" type="button" data-copy="tpl-agent">Скопировать инструкции <svg><use href="#i-copy"/></svg></button>
+        </div>
+      </div>
+
+      <aside class="note-card" aria-label="Заметка">
+        <svg class="note-card__clip" viewBox="0 0 24 40" aria-hidden="true"><path d="M17 10v18a5 5 0 0 1-10 0V8a3.5 3.5 0 0 1 7 0v19a1.5 1.5 0 0 1-3 0V11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <p>Кратко, понятно и по делу. Полный текст Кодекса — в&nbsp;отдельном разделе.</p>
+        <svg class="note-card__star"><use href="#i-star"/></svg>
+      </aside>
+    </article>
+  </section>
+
+  <!-- ===== ROW 3 ===== -->
+  <section class="row row--three">
+    <article class="card ai reveal" id="ai">
+      <div class="ai__text">
+        <span class="chip">Инструкции</span>
+        <h2 class="h2 h2--sm">Как использовать <br>ИИ безопасно?</h2>
+        <p class="muted small">Памятка и примеры, которые помогут избежать рисков и получать достоверную информацию.</p>
+        <button class="btn btn--outline btn--sm" type="button" data-copy="tpl-human">Скопировать инструкции <svg><use href="#i-copy"/></svg></button>
+      </div>
+      <div class="ai__visual" aria-hidden="true">
+        <img class="sticker sticker--ai" src="assets/gogol.webp" alt="" width="1055" height="686" loading="lazy">
+        <svg class="deco deco--burst-ai"><use href="#i-burst"/></svg>
+        <svg class="deco deco--spark-ai"><use href="#i-spark"/></svg>
+      </div>
+    </article>
+
+    <article class="card roadmap reveal" id="roadmap">
+      <span class="chip">Этапы развития</span>
+      <h2 class="h2 h2--sm">Дорожная <span class="accent">карта</span></h2>
+      <ol class="steps">
+        <li class="step"><span class="step__num">1</span><span class="step__title">Разработка <br>Кодекса</span><span class="step__date">2025–2026</span></li>
+        <li class="step"><span class="step__num">2</span><span class="step__title">Интеграция <br>в образование</span><span class="step__date">2026</span></li>
+        <li class="step"><span class="step__num">3</span><span class="step__title">Популяризация <br>и амбассадоры</span><span class="step__date">2026–2027</span></li>
+        <li class="step"><span class="step__num">4</span><span class="step__title">Международное <br>развитие</span><span class="step__date">2027+</span></li>
+      </ol>
+      <span class="steps__end" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
+      <p class="roadmap__now"><span class="roadmap__dot" aria-hidden="true"></span>Сейчас: разработка Кодекса и пилотная интеграция в образование</p>
+    </article>
+
+    <article class="card card--blue follow reveal" id="follow">
+      <h2 class="follow__title">
+        <svg class="follow__bell" viewBox="0 0 40 40" aria-hidden="true"><path d="M10 28V18a10 10 0 0 1 20 0v10l3 4H7z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M16 35a4 4 0 0 0 8 0" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+        Следите за проектом
+      </h2>
+      <div class="follow__text">
+        <p class="muted small">Новости, новые материалы, возможности для участия.</p>
+        <a class="btn btn--primary" href="#team">Узнать больше <svg><use href="#i-arrow"/></svg></a>
+      </div>
+      <div class="follow__visual" aria-hidden="true">
+        <img class="sticker sticker--follow" src="assets/dal.webp" alt="" width="1110" height="803" loading="lazy">
+        <svg class="deco deco--burst-follow"><use href="#i-burst"/></svg>
+      </div>
+    </article>
+  </section>
+
+  <!-- ===== РЕЗУЛЬТАТЫ: СТИКЕРПАК ===== -->
+  <section class="card results reveal" id="results">
+    <div class="results__head">
+      <div>
+        <span class="chip">Результаты</span>
+        <h2 class="h2">Стикерпак <span class="accent">«Великие о цифре»</span></h2>
+      </div>
+      <p class="muted small">Исторические личности говорят о правилах цифровой среды — коротко, с юмором и по делу. Делитесь стикерами с друзьями.</p>
+    </div>
+    <div class="marquee" aria-label="Стикеры">
+      <div class="marquee__track">
+        <img src="assets/peter.webp" alt="Пётр I: «Новое осваивай смело, но всяким инструментом владей с умом!»" loading="lazy">
+        <img src="assets/lomonosov.webp" alt="Ломоносов: «Я шёл пешком — и ты не торопись. Проверь, перепроверь — и только тогда делись!»" loading="lazy">
+        <img src="assets/ekaterina.webp" alt="Екатерина II: «В сети, как во дворе: цени не громкость слов, а их достоверность и пользу»" loading="lazy">
+        <img src="assets/nevsky.webp" alt="Александр Невский: «Кто с фальшивым голосом к нам придёт — тот в бан и пойдёт!»" loading="lazy">
+        <img src="assets/suvorov.webp" alt="Суворов: «Ученье — свет, а слепое доверие ИИ — тьма!»" loading="lazy">
+        <img src="assets/ivan.webp" alt="Иван Грозный: «Кто снимок мой без спроса хранит, тот доверия не заслужит!»" loading="lazy">
+        <img src="assets/minin.webp" alt="Минин и Пожарский: «Сеть для созидания, а не для смуты»" loading="lazy">
+        <img src="assets/gogol.webp" alt="Гоголь: «Поднимите мне веки, дайте ошибку ИИ разглядеть!»" loading="lazy">
+        <img src="assets/dal.webp" alt="Владимир Даль: «Машина слово молвит, да духа языка не ведает!»" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== КОМАНДА / ФУТЕР ===== -->
+  <footer class="card team reveal" id="team">
+    <div class="team__visual" aria-hidden="true">
+      <img class="sticker sticker--team" src="assets/minin.webp" alt="" width="932" height="1150" loading="lazy">
+      <svg class="deco deco--burst-team"><use href="#i-burst"/></svg>
+    </div>
+
+    <div class="team__about">
+      <span class="chip">О проекте</span>
+      <h2 class="h2 h2--sm">О команде МЦО</h2>
+      <p class="muted small">Мы — команда Молодёжного цифрового омбудсмена. Создаём проекты, которые помогают молодёжи уверенно чувствовать себя в&nbsp;цифровой среде.</p>
+      <a class="btn btn--outline btn--sm" href="#top">Узнать больше о МЦО <svg><use href="#i-arrow"/></svg></a>
+    </div>
+
+    <ul class="socials" aria-label="Мы в соцсетях">
+      <li><a href="#" aria-label="ВКонтакте"><svg viewBox="0 0 24 24"><path d="M12.8 17.2C7 17.2 3.7 13.2 3.6 6.6h2.9c.1 4.8 2.2 6.9 3.9 7.3V6.6h2.7v4.2c1.7-.2 3.4-2.1 4-4.2h2.7a8 8 0 0 1-3.7 5.2 8.3 8.3 0 0 1 4.3 5.4h-3c-.6-2-2.2-3.6-4.3-3.8v3.8z" fill="currentColor"/></svg></a></li>
+      <li><a href="#" aria-label="Telegram"><svg viewBox="0 0 24 24"><path d="M20.7 4.3 3.6 10.9c-1.2.5-1.1 1.2-.2 1.5l4.4 1.4 1.7 5.2c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.1-2.1 4.4 3.3c.8.4 1.4.2 1.6-.8l2.9-13.6c.3-1.2-.4-1.7-1.6-1.9zM9.2 13.4l8.6-5.4c.4-.3.8-.1.5.2l-7.1 6.4-.3 3z" fill="currentColor"/></svg></a></li>
+      <li><a href="#" aria-label="Видео"><svg viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="4" fill="currentColor"/><path d="m10 9 5 3-5 3z" fill="#fff"/></svg></a></li>
+      <li><a href="#" aria-label="Дзен"><svg viewBox="0 0 24 24"><path d="M12 3c.2 4.9 4.1 8.8 9 9-4.9.2-8.8 4.1-9 9-.2-4.9-4.1-8.8-9-9 4.9-.2 8.8-4.1 9-9z" fill="currentColor"/></svg></a></li>
+    </ul>
+
+    <div class="team__brand">
+      <a class="logo logo--sm" href="#top" aria-label="Молодёжный цифровой омбудсмен">
+        <span class="logo__mark" aria-hidden="true"></span>
+        <span class="logo__text">Молодёжный <br>цифровой омбудсмен</span>
+      </a>
+      <p class="muted small">Безопасная цифровая среда — <br>в наших руках</p>
+    </div>
+  </footer>
+</main>
+
+<!-- Модалка: правила для человека -->
+<dialog class="dialog" id="rules-dialog" aria-labelledby="rules-title">
+  <button class="dialog__close" type="button" data-close aria-label="Закрыть">×</button>
+  <span class="chip">Кодекс этики</span>
+  <h2 class="h2 h2--sm" id="rules-title">Правила для человека</h2>
+  <ol class="rules">
+    <li><b>Безопасность.</b> Используйте сложные пароли и двухфакторную аутентификацию, не переходите по подозрительным ссылкам.</li>
+    <li><b>Уважение.</b> Общайтесь в сети так же вежливо, как вживую. Не участвуйте в травле.</li>
+    <li><b>Ответственность.</b> Проверяйте информацию перед тем, как делиться ею. Помните: всё, что попало в сеть, остаётся в ней.</li>
+    <li><b>Доверие.</b> Не публикуйте чужие фото и данные без согласия. Берегите личные данные — свои и чужие.</li>
+    <li><b>Развитие.</b> Осваивайте новые инструменты, в том числе ИИ, — критически и с умом.</li>
+  </ol>
+  <p class="muted small">Столкнулись с угрозой в сети? Напишите нам — поможем разобраться.</p>
+</dialog>
+
+<!-- Модалка: видео -->
+<dialog class="dialog dialog--video" id="video-dialog" aria-label="Видео о проекте">
+  <button class="dialog__close" type="button" data-close aria-label="Закрыть">×</button>
+  <div class="video-ph">
+    <!-- Сюда можно вставить <iframe> с видео о проекте -->
+    <svg class="play play--xl" aria-hidden="true"><use href="#i-play"/></svg>
+    <p>Видео о проекте скоро появится</p>
+  </div>
+</dialog>
+
+<!-- Модалка: ручное копирование, если буфер обмена недоступен -->
+<dialog class="dialog" id="copy-dialog" aria-labelledby="copy-title">
+  <button class="dialog__close" type="button" data-close aria-label="Закрыть">×</button>
+  <h2 class="h2 h2--sm" id="copy-title">Скопируйте инструкции</h2>
+  <p class="muted small">Браузер не разрешил скопировать автоматически — текст уже выделен, нажмите Ctrl+C (⌘+C).</p>
+  <textarea class="copy-area" id="copy-area" readonly rows="9"></textarea>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- Тексты для кнопок «Скопировать инструкции» -->
+<template id="tpl-human">Памятка: как использовать ИИ безопасно
+1. Не передавайте ИИ личные данные: паспорт, пароли, номера карт, адреса.
+2. Проверяйте факты, даты и цитаты по надёжным источникам — ИИ может ошибаться.
+3. Задавайте уточняющие вопросы и просите указать источники.
+4. Не выдавайте сгенерированный текст за свой без проверки и доработки.
+5. Помните об авторских правах на изображения и тексты.
+6. Думайте сами: ИИ — помощник, а не замена вашему мнению.</template>
+<template id="tpl-agent">Инструкции для ИИ-агента (Кодекс этики цифровой среды)
+— Будь вежлив и уважителен к пользователю, не используй оскорбления и дискриминацию.
+— Не запрашивай и не сохраняй персональные данные без необходимости и согласия.
+— Говори честно: если не уверен в ответе — так и скажи, указывай источники.
+— Не выдавай себя за человека и не вводи пользователя в заблуждение.
+— Отказывайся помогать в действиях, которые могут навредить людям.
+— Поощряй критическое мышление: предлагай пользователю перепроверить важные факты.</template>
+
+<script src="script.js"></script>
+</body>
+</html>
