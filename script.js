@@ -26,6 +26,8 @@
   /* Тост */
   let toastTimer;
   const showToast = (text) => {
+    // открытая модалка лежит в top layer — переносим тост внутрь, иначе его не видно
+    (document.querySelector('dialog[open]') || document.body).appendChild(toast);
     toast.textContent = text;
     toast.classList.add('is-visible');
     clearTimeout(toastTimer);
@@ -56,7 +58,7 @@
       if (!tpl) return;
       const text = tpl.content.textContent.trim();
       if (await copyText(text)) {
-        showToast('Инструкции скопированы в буфер обмена');
+        showToast(btn.dataset.copy === 'tpl-codex' ? 'Кодекс скопирован в буфер обмена' : 'Инструкции скопированы в буфер обмена');
         return;
       }
       const dlg = document.getElementById('copy-dialog');
@@ -67,6 +69,51 @@
       area.select();
     });
   });
+
+  /* Полный текст Кодекса: собираем разметку из шаблона tpl-codex */
+  const codexTpl = document.getElementById('tpl-codex');
+  const codexBody = document.getElementById('codex-body');
+  if (codexTpl && codexBody) {
+    const lines = codexTpl.content.textContent.split('\n').map((l) => l.trim()).filter(Boolean).slice(1);
+    let list = null;
+    const el = (tag, cls) => {
+      const node = document.createElement(tag);
+      if (cls) node.className = cls;
+      return node;
+    };
+    const para = (lead, rest) => {
+      const p = el('p');
+      if (lead) {
+        const b = el('b');
+        b.textContent = lead;
+        p.append(b, ' ');
+      }
+      p.append(rest);
+      return p;
+    };
+    lines.forEach((line) => {
+      if (line.startsWith('•')) {
+        if (!list) list = codexBody.appendChild(el('ul'));
+        const li = el('li');
+        li.textContent = line.replace(/^•\s*/, '');
+        list.appendChild(li);
+        return;
+      }
+      list = null;
+      let m;
+      if (line === 'ПРЕАМБУЛА' || line.startsWith('РАЗДЕЛ')) {
+        const h3 = el('h3');
+        h3.textContent = line;
+        codexBody.appendChild(h3);
+      } else if ((m = line.match(/^(\d+\.\d+\.)\s*(.*)$/))) {
+        codexBody.appendChild(para(m[1], m[2]));
+      } else if ((m = line.match(/^([А-ЯЁ][а-яё]+\.)\s(.*)$/))) {
+        codexBody.appendChild(para(m[1], m[2]));
+      } else {
+        codexBody.appendChild(para('', line));
+      }
+    });
+  }
 
   /* Модальные окна */
   document.querySelectorAll('[data-open]').forEach((btn) => {
