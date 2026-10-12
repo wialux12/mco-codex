@@ -124,9 +124,6 @@ button.link { border: 0; background: none; padding: 0; }
 .card--blue { background: linear-gradient(160deg, #eef3ff, var(--card-blue)); }
 
 .sticker { filter: drop-shadow(0 10px 18px rgba(30, 50, 140, .16)); user-select: none; -webkit-user-drag: none; }
-.sticker[data-sticker] { cursor: zoom-in; transition: scale .35s ease, filter .35s ease; }
-.sticker[data-sticker]:hover { scale: 1.035; filter: drop-shadow(0 16px 26px rgba(30, 50, 140, .24)); }
-.sticker[data-sticker]:focus-visible { outline: 2px solid var(--blue); outline-offset: 6px; border-radius: 24px; }
 
 .deco { position: absolute; color: var(--blue); pointer-events: none; }
 
@@ -406,6 +403,8 @@ button.link { border: 0; background: none; padding: 0; }
 .results__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
 .results__head .h2 { margin-bottom: 0; }
 .results__head p { max-width: 420px; }
+.results__aside { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+[data-stickerpack-link][hidden] { display: none; }
 .carousel { margin: 6px -24px 0; position: relative; }
 .carousel__viewport {
   overflow-x: auto; overflow-y: hidden;

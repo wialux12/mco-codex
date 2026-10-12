@@ -312,12 +312,12 @@
     copyOrShow(`${text}\n${url}`, 'Ссылка скопирована — отправьте её друзьям');
   });
 
-  // стикеры на странице тоже открываются в просмотрщике
-  $$('img[data-sticker]').forEach((img) => {
-    img.addEventListener('click', () => openSticker(img.dataset.sticker));
-    img.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openSticker(img.dataset.sticker); }
-    });
+  // ссылка на стикерпак: кнопки показываем, только когда адрес задан
+  const packUrl = (carousel && carousel.closest('[data-stickerpack-url]')?.dataset.stickerpackUrl || '').trim();
+  $$('[data-stickerpack-link]').forEach((a) => {
+    if (!packUrl) return;
+    a.href = packUrl;
+    a.hidden = false;
   });
 
   /* ---------- Стикеры: бесконечная карусель ---------- */
