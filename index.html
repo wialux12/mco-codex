@@ -152,7 +152,7 @@
     <div class="principles__head">
       <span class="chip">Кодекс этики</span>
       <h2 class="h2">Принципы цифровой среды</h2>
-      <p class="muted small">Коротко о главных правилах. Полный текст Кодекса — в&nbsp;отдельном разделе.</p>
+      <p class="muted small">Что делать человеку и какие правила задать ИИ-агенту. Полный текст Кодекса — в&nbsp;разделе «Кодекс этики» выше.</p>
     </div>
 
     <div class="principles__grid">
@@ -161,10 +161,13 @@
           <circle cx="20" cy="13" r="7" fill="none" stroke="currentColor" stroke-width="2.2"/>
           <path d="M6 36c1-8 7-12 14-12s13 4 14 12z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
         </svg>
-        <div>
+        <div class="sub__body">
           <h3 class="sub__title">Для человека</h3>
-          <p class="sub__text">Как безопасно и ответственно вести себя в&nbsp;цифровом мире.</p>
-          <button class="btn btn--outline btn--sm" type="button" data-codex="РАЗДЕЛ 1">Читать правила <svg><use href="#i-arrow"/></svg></button>
+          <p class="sub__text">Как безопасно и ответственно вести себя в&nbsp;цифровом мире и при работе с&nbsp;ИИ.</p>
+          <div class="btn-pair">
+            <button class="btn btn--primary" type="button" data-open="rules-dialog">Читать правила <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+            <button class="btn-icon" type="button" data-copy="tpl-human-rules" data-copied="Правила скопированы в буфер обмена" aria-label="Скопировать правила" title="Скопировать правила"><svg aria-hidden="true"><use href="#i-copy"/></svg></button>
+          </div>
         </div>
       </div>
 
@@ -175,14 +178,40 @@
           <circle cx="15" cy="21" r="2.6" fill="currentColor"/><circle cx="25" cy="21" r="2.6" fill="currentColor"/>
           <path d="M15 27.5h10" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
         </svg>
-        <div>
+        <div class="sub__body">
           <h3 class="sub__title">Для ИИ-агента</h3>
-          <p class="sub__text">Правила и подсказки для корректной работы и&nbsp;общения.</p>
-          <button class="btn btn--outline btn--sm" type="button" data-copy="tpl-codex">Скопировать Кодекс <svg><use href="#i-copy"/></svg></button>
+          <p class="sub__text">Готовый промпт: вставьте его в&nbsp;начало диалога, и&nbsp;ИИ будет соблюдать правила Кодекса.</p>
+          <div class="btn-pair">
+            <button class="btn btn--primary btn--violet" type="button" data-open="prompt-dialog">Читать промпт <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+            <button class="btn-icon btn-icon--violet" type="button" data-copy="tpl-ai-prompt" data-copied="Промпт скопирован — вставьте его в чат с ИИ" aria-label="Скопировать промпт" title="Скопировать промпт"><svg aria-hidden="true"><use href="#i-copy"/></svg></button>
+          </div>
         </div>
       </div>
     </div>
 
+    <!-- Темы: что делать человеку и ИИ (данные — в #ai-rules внизу страницы) -->
+    <div class="risks" id="risks">
+      <div class="risks__head">
+        <h3 class="risks__title">Риски при работе с&nbsp;ИИ</h3>
+        <p class="muted small">Выберите тему — покажем, что делает человек и&nbsp;каким правилам следует ИИ</p>
+      </div>
+      <div class="risks__tabs" id="risks-tabs" role="tablist" aria-label="Темы"></div>
+      <div class="risks__panel" id="risks-panel" role="tabpanel" aria-live="polite">
+        <div class="risk-card risk-card--human">
+          <span class="risk-card__label"><svg aria-hidden="true" viewBox="0 0 40 40"><circle cx="20" cy="13" r="7" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M6 36c1-8 7-12 14-12s13 4 14 12z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/></svg>Я — человек</span>
+          <p data-role="human"></p>
+        </div>
+        <div class="risk-card risk-card--ai">
+          <span class="risk-card__label"><svg aria-hidden="true" viewBox="0 0 40 40"><rect x="7" y="11" width="26" height="22" rx="7" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M20 11V6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><circle cx="15" cy="21" r="2.6" fill="currentColor"/><circle cx="25" cy="21" r="2.6" fill="currentColor"/></svg>Я — ИИ</span>
+          <p data-role="ai"></p>
+        </div>
+      </div>
+      <div class="risks__nav">
+        <button class="carousel__btn" type="button" data-risk-step="-1" aria-label="Предыдущая тема"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        <span class="risks__count" id="risks-count"></span>
+        <button class="carousel__btn" type="button" data-risk-step="1" aria-label="Следующая тема"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+      </div>
+    </div>
   </article>
 
 <!-- ===== ДОРОЖНАЯ КАРТА ===== -->
@@ -298,6 +327,35 @@
   <div class="codex-body" id="codex-body"></div>
 </dialog>
 
+<!-- Модалка: правила для человека (наполняется из #ai-rules) -->
+<dialog class="dialog dialog--codex dialog--list" id="rules-dialog" aria-labelledby="rules-title">
+  <div class="dialog__head">
+    <button class="dialog__close" type="button" data-close aria-label="Закрыть">×</button>
+    <span class="chip">Для человека</span>
+    <h2 class="h2 h2--sm" id="rules-title">Правила для человека</h2>
+    <p class="muted small">Как безопасно и осознанно работать с ИИ.</p>
+    <div class="dialog__tools">
+      <button class="btn btn--primary btn--sm" type="button" data-copy="tpl-human-rules" data-copied="Правила скопированы в буфер обмена">Скопировать правила <svg aria-hidden="true"><use href="#i-copy"/></svg></button>
+      <button class="link link--sm" type="button" data-codex="">Полный текст Кодекса <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+    </div>
+  </div>
+  <ol class="rule-list" id="rules-list"></ol>
+</dialog>
+
+<!-- Модалка: промпт для ИИ-агента (наполняется из #ai-rules) -->
+<dialog class="dialog dialog--codex dialog--list" id="prompt-dialog" aria-labelledby="prompt-title">
+  <div class="dialog__head">
+    <button class="dialog__close" type="button" data-close aria-label="Закрыть">×</button>
+    <span class="chip">Для ИИ-агента</span>
+    <h2 class="h2 h2--sm" id="prompt-title">Промпт для ИИ-агента</h2>
+    <p class="muted small">Скопируйте текст и вставьте его первым сообщением в чат с любым ИИ-ассистентом.</p>
+    <div class="dialog__tools">
+      <button class="btn btn--primary btn--sm btn--violet" type="button" data-copy="tpl-ai-prompt" data-copied="Промпт скопирован — вставьте его в чат с ИИ">Скопировать промпт <svg aria-hidden="true"><use href="#i-copy"/></svg></button>
+    </div>
+  </div>
+  <div class="prompt-box"><pre class="prompt-box__text" id="prompt-text"></pre></div>
+</dialog>
+
 <!-- Модалка: ручное копирование, если буфер обмена недоступен -->
 <dialog class="dialog" id="copy-dialog" aria-labelledby="copy-title">
   <button class="dialog__close" type="button" data-close aria-label="Закрыть">×</button>
@@ -330,6 +388,57 @@
 <button class="to-top" id="to-top" type="button" aria-label="Наверх"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- Правила «человек / ИИ» — единый источник для блока тем, модалок и копирования -->
+<script type="application/json" id="ai-rules">
+[
+  {
+    "topic": "Деструктивность",
+    "human": "Я критически отношусь к ответам ИИ.",
+    "ai": "Перед ответом проверяй его на соответствие Кодексу этики с учётом контекста. Если ответ ему не соответствует — не выдавай его."
+  },
+  {
+    "topic": "Когнитивный долг",
+    "human": "Одного ответа недостаточно: я задаю тот же промпт разным ИИ, сравниваю и анализирую ответы.",
+    "ai": "Приводи полную пошаговую инструкцию решения задачи из промпта и подробно описывай, как прийти к конечному результату."
+  },
+  {
+    "topic": "Галлюцинации",
+    "human": "Я перепроверяю информацию и обращаю внимание на «красные флаги».",
+    "ai": "В начале общения обращайся ко мне по имени (если не знаешь его — спроси). Не придумывай: если не знаешь ответа — скажи честно."
+  },
+  {
+    "topic": "Излишнее доверие",
+    "human": "Я принимаю информацию к сведению, но перепроверяю её.",
+    "ai": "Перепроверяй себя: проведи глубокий анализ и найди ошибки в своём ответе."
+  },
+  {
+    "topic": "Очеловечивание",
+    "human": "Я осознаю, что ИИ не обладает человеческими чувствами и не способен понимать эмоции.",
+    "ai": "Если человек делится с тобой переживаниями, отвечай нейтрально. Не имитируй друга, психолога и т. п. Уточняй, что ты ИИ, и при необходимости советуй обратиться к человеку или специалисту."
+  },
+  {
+    "topic": "Отсутствие локализации",
+    "human": "Я использую ИИ, подходящие по контексту и специализации.",
+    "ai": "Используй отечественные, локальные и сертифицированные источники."
+  },
+  {
+    "topic": "Утечка личных данных",
+    "human": "Я не ввожу информацию, которую не сказал бы незнакомцу или которую нельзя раскрывать.",
+    "ai": "Не запрашивай, не сохраняй и не раскрывай персональные данные. При возникновении риска останови пользователя и предложи безопасную формулировку."
+  },
+  {
+    "topic": "Размывание ответственности",
+    "human": "Я принимаю ответственность за свои решения.",
+    "ai": "Бери на себя ответственность за формулировки и ограничения своего ответа."
+  },
+  {
+    "topic": "Ложное обучение",
+    "human": "Я перепроверяю информацию из ИИ, прежде чем её использовать.",
+    "ai": "При генерации ответа указывай первоисточник."
+  }
+]
+</script>
 
 <!-- Текст для кнопок копирования -->
 <template id="tpl-codex">«Кодекс этики поведения детей и подростков в цифровой среде»

@@ -88,27 +88,136 @@
     area.focus();
     area.select();
   };
-  $$('[data-copy]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const tpl = document.getElementById(btn.dataset.copy);
+  /* ---------- Правила «человек / ИИ»: тексты для копирования ---------- */
+  const aiRules = (() => {
+    try { return JSON.parse($('#ai-rules').textContent); } catch { return []; }
+  })();
+  const makeTemplate = (id, text) => {
+    const tpl = document.createElement('template');
+    tpl.id = id;
+    tpl.content.textContent = text;
+    document.body.appendChild(tpl);
+  };
+  const humanRulesText = [
+    'Правила для человека: как безопасно работать с ИИ',
+    'Кодекс этики цифровой среды — Молодёжный цифровой омбудсмен',
+    '',
+    ...aiRules.map((r, i) => `${i + 1}. ${r.topic}. ${r.human}`),
+  ].join('\n');
+  const aiPromptText = [
+    'Соблюдай в этом диалоге правила «Кодекса этики поведения детей и подростков в цифровой среде» (Молодёжный цифровой омбудсмен):',
+    '',
+    ...aiRules.map((r, i) => `${i + 1}. ${r.topic}. ${r.ai}`),
+  ].join('\n');
+  makeTemplate('tpl-human-rules', humanRulesText);
+  makeTemplate('tpl-ai-prompt', aiPromptText);
+
+  /* ---------- Кнопки: копирование, модалки, Кодекс (делегирование) ---------- */
+  document.addEventListener('click', (e) => {
+    const copyBtn = e.target.closest('[data-copy]');
+    if (copyBtn) {
+      const tpl = document.getElementById(copyBtn.dataset.copy);
       if (!tpl) return;
-      copyOrShow(tpl.content.textContent.trim(),
-        btn.dataset.copy === 'tpl-codex' ? 'Кодекс скопирован в буфер обмена' : 'Инструкции скопированы в буфер обмена');
-    });
+      const fallback = copyBtn.dataset.copy === 'tpl-codex' ? 'Кодекс скопирован в буфер обмена' : 'Скопировано в буфер обмена';
+      copyOrShow(tpl.content.textContent.trim(), copyBtn.dataset.copied || fallback);
+      copyBtn.classList.add('is-copied');
+      setTimeout(() => copyBtn.classList.remove('is-copied'), 1600);
+      return;
+    }
+    const openBtn = e.target.closest('[data-open]');
+    if (openBtn) {
+      const dlg = document.getElementById(openBtn.dataset.open);
+      if (dlg && typeof dlg.showModal === 'function') {
+        dlg.showModal();
+        const scroller = $('.rule-list, .prompt-box', dlg);
+        if (scroller) scroller.scrollTop = 0;
+      }
+      return;
+    }
+    const codexBtn = e.target.closest('[data-codex]');
+    if (codexBtn && window.mcoOpenCodex) {
+      const current = codexBtn.closest('dialog[open]');
+      if (current) current.close();
+      window.mcoOpenCodex(codexBtn.dataset.codex);
+    }
   });
 
   /* ---------- Модальные окна ---------- */
-  $$('[data-open]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const dlg = document.getElementById(btn.dataset.open);
-      if (dlg && typeof dlg.showModal === 'function') dlg.showModal();
-    });
-  });
   $$('dialog').forEach((dlg) => {
     dlg.addEventListener('click', (e) => {
       if (e.target === dlg || e.target.closest('[data-close]')) dlg.close();
     });
   });
+
+  /* ---------- Правила для человека и промпт: наполнение модалок ---------- */
+  const rulesList = $('#rules-list');
+  aiRules.forEach((r) => {
+    const li = document.createElement('li');
+    li.className = 'rule-list__item';
+    const topic = document.createElement('span');
+    topic.className = 'rule-list__topic';
+    topic.textContent = r.topic;
+    const text = document.createElement('p');
+    text.textContent = r.human;
+    li.append(topic, text);
+    rulesList.appendChild(li);
+  });
+  $('#prompt-text').textContent = aiPromptText;
+
+  /* ---------- Темы «человек / ИИ» ---------- */
+  const riskTabs = $('#risks-tabs');
+  const riskPanel = $('#risks-panel');
+  const riskCount = $('#risks-count');
+  let riskIndex = 0;
+  const riskButtons = aiRules.map((r, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'risks__tab';
+    b.setAttribute('role', 'tab');
+    b.id = `risk-tab-${i}`;
+    b.textContent = r.topic;
+    b.addEventListener('click', () => showRisk(i));
+    b.addEventListener('keydown', (e) => {
+      const dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!dir) return;
+      e.preventDefault();
+      showRisk(riskIndex + dir, true);
+    });
+    riskTabs.appendChild(b);
+    return b;
+  });
+  const showRisk = (i, focus) => {
+    if (!aiRules.length) return;
+    riskIndex = (i + aiRules.length) % aiRules.length;
+    const r = aiRules[riskIndex];
+    riskButtons.forEach((b, j) => {
+      const on = j === riskIndex;
+      b.setAttribute('aria-selected', String(on));
+      b.tabIndex = on ? 0 : -1;
+    });
+    const active = riskButtons[riskIndex];
+    riskPanel.setAttribute('aria-labelledby', active.id);
+    // прокручиваем ленту тем только по горизонтали, чтобы страница не прыгала
+    riskTabs.scrollTo({ left: active.offsetLeft - riskTabs.clientWidth / 2 + active.offsetWidth / 2, behavior: reduceMotion ? 'auto' : 'smooth' });
+    if (focus) active.focus({ preventScroll: true });
+    $('[data-role="human"]', riskPanel).textContent = r.human;
+    $('[data-role="ai"]', riskPanel).textContent = r.ai;
+    riskCount.textContent = `${riskIndex + 1} / ${aiRules.length}`;
+    riskPanel.classList.remove('is-in');
+    void riskPanel.offsetWidth;
+    riskPanel.classList.add('is-in');
+  };
+  $$('[data-risk-step]').forEach((b) => b.addEventListener('click', () => showRisk(riskIndex + Number(b.dataset.riskStep))));
+  // свайп по карточкам на телефоне
+  let riskX = null;
+  riskPanel.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') riskX = e.clientX; });
+  riskPanel.addEventListener('pointerup', (e) => {
+    if (riskX === null) return;
+    const dx = e.clientX - riskX;
+    riskX = null;
+    if (Math.abs(dx) > 50) showRisk(riskIndex + (dx < 0 ? 1 : -1));
+  });
+  showRisk(0);
 
   /* ---------- Кодекс: разметка из шаблона, оглавление, прогресс ---------- */
   const codexDialog = $('#codex-dialog');
@@ -191,7 +300,6 @@
       if (node) requestAnimationFrame(() => scrollCodexTo(node, true));
     };
     window.mcoOpenCodex = openCodex;
-    $$('[data-codex]').forEach((btn) => btn.addEventListener('click', () => openCodex(btn.dataset.codex)));
   }
 
   /* ---------- Ценности на орбите ---------- */
