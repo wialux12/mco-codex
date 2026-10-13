@@ -19,6 +19,33 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' }));
 
+  /* ---------- Внешние ссылки из #site-links (пустая ссылка — кнопка скрыта) ---------- */
+  const siteLinks = (() => {
+    try { return JSON.parse($('#site-links').textContent); } catch { return {}; }
+  })();
+  $$('[data-link]').forEach((a) => {
+    const url = (siteLinks[a.dataset.link] || '').trim();
+    if (url) a.href = url;
+    else (a.closest('li') || a).hidden = true;
+  });
+  const socials = $('.socials');
+  if (socials && !$$('li:not([hidden])', socials).length) socials.hidden = true;
+
+  /* ---------- Затухание по краям у горизонтальных лент ---------- */
+  const edgeFade = (el) => {
+    if (!el) return;
+    const update = () => {
+      const max = el.scrollWidth - el.clientWidth;
+      el.classList.toggle('fade-start', el.scrollLeft > 4);
+      el.classList.toggle('fade-end', max > 4 && el.scrollLeft < max - 4);
+    };
+    el.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    requestAnimationFrame(update);
+    return update;
+  };
+  window.mcoEdgeFade = edgeFade;
+
   /* ---------- Мобильное меню ---------- */
   const setMenu = (open) => {
     nav.classList.toggle('is-open', open);
@@ -169,6 +196,7 @@
   const riskPanel = $('#risks-panel');
   const riskCount = $('#risks-count');
   let riskIndex = 0;
+  const riskFade = edgeFade(riskTabs);
   const riskButtons = aiRules.map((r, i) => {
     const b = document.createElement('button');
     b.type = 'button';
@@ -200,14 +228,23 @@
     // прокручиваем ленту тем только по горизонтали, чтобы страница не прыгала
     riskTabs.scrollTo({ left: active.offsetLeft - riskTabs.clientWidth / 2 + active.offsetWidth / 2, behavior: reduceMotion ? 'auto' : 'smooth' });
     if (focus) active.focus({ preventScroll: true });
-    $('[data-role="human"]', riskPanel).textContent = r.human;
-    $('[data-role="ai"]', riskPanel).textContent = r.ai;
+    riskStacks.forEach((list) => list.forEach((p, j) => p.classList.toggle('is-active', j === riskIndex)));
     riskCount.textContent = `${riskIndex + 1} / ${aiRules.length}`;
     riskPanel.classList.remove('is-in');
     void riskPanel.offsetWidth;
     riskPanel.classList.add('is-in');
   };
+  const riskStacks = ['human', 'ai'].map((role) => {
+    const stack = $(`[data-role="${role}"]`, riskPanel);
+    return aiRules.map((r) => {
+      const p = document.createElement('p');
+      p.textContent = r[role];
+      stack.appendChild(p);
+      return p;
+    });
+  });
   $$('[data-risk-step]').forEach((b) => b.addEventListener('click', () => showRisk(riskIndex + Number(b.dataset.riskStep))));
+  showRisk(0);
   // свайп по карточкам на телефоне
   let riskX = null;
   riskPanel.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') riskX = e.clientX; });
@@ -217,7 +254,6 @@
     riskX = null;
     if (Math.abs(dx) > 50) showRisk(riskIndex + (dx < 0 ? 1 : -1));
   });
-  showRisk(0);
 
   /* ---------- Кодекс: разметка из шаблона, оглавление, прогресс ---------- */
   const codexDialog = $('#codex-dialog');
@@ -279,6 +315,8 @@
       tocButtons.forEach((b, i) => b.classList.toggle('is-active', i === active));
     };
     codexBody.addEventListener('scroll', updateCodexProgress, { passive: true });
+    const tocFade = edgeFade(codexToc);
+    codexDialog.addEventListener('toggle', () => tocFade && tocFade());
     codexDialog.addEventListener('close', () => { codexBody.scrollTop = 0; });
 
     const scrollCodexTo = (node, flash) => {
@@ -295,6 +333,7 @@
       codexDialog.showModal();
       codexBody.scrollTop = 0;
       updateCodexProgress();
+      if (tocFade) tocFade();
       if (!key) return;
       const node = $$('[data-key]', codexBody).find((n) => n.dataset.key.startsWith(key));
       if (node) requestAnimationFrame(() => scrollCodexTo(node, true));
@@ -303,11 +342,15 @@
   }
 
   /* ---------- Ценности на орбите ---------- */
+  // Все ценности лежат в одной ячейке грида, видна только активная —
+  // высота карточки = самой длинной, поэтому блок не «прыгает».
+  const whyCard = $('#about');
   const valueCard = $('#value-card');
+  const valueTimer = $('.value-card__timer span', valueCard);
   const pills = $$('.orbit .pill');
-  const selectValue = (pill) => {
-    pills.forEach((p) => p.setAttribute('aria-pressed', String(p === pill)));
-    valueCard.replaceChildren();
+  const valueItems = pills.map((pill) => {
+    const item = document.createElement('div');
+    item.className = 'value-card__item';
     const title = document.createElement('h3');
     title.className = 'value-card__title';
     title.textContent = pill.textContent;
@@ -316,14 +359,88 @@
     const more = document.createElement('button');
     more.type = 'button';
     more.className = 'link link--sm';
+    more.dataset.codex = pill.dataset.codexKey;
     more.innerHTML = 'Читать в Кодексе <svg aria-hidden="true"><use href="#i-arrow"/></svg>';
-    more.addEventListener('click', () => window.mcoOpenCodex && window.mcoOpenCodex(pill.dataset.codexKey));
-    valueCard.append(title, text, more);
-    valueCard.classList.remove('is-in');
-    void valueCard.offsetWidth;
-    valueCard.classList.add('is-filled', 'is-in');
+    item.append(title, text, more);
+    valueCard.appendChild(item);
+    return item;
+  });
+  const VALUE_MS = 5000;
+  let valueIndex = 0;
+  let valueLocked = false;      // пользователь выбрал ценность сам — не листаем
+  let valueHover = false;
+  let valueInView = false;
+  let valueRunning = false;
+  let valueStarted = 0;
+  let valueElapsed = 0;
+  let valueTimeout;
+  let unlockTimer;
+  const restartBar = () => {
+    valueTimer.style.animation = 'none';
+    void valueTimer.offsetWidth;
+    valueTimer.style.animation = '';
   };
-  pills.forEach((pill) => pill.addEventListener('click', () => selectValue(pill)));
+  const selectValue = (i) => {
+    valueIndex = (i + pills.length) % pills.length;
+    pills.forEach((p, j) => p.setAttribute('aria-pressed', String(j === valueIndex)));
+    valueItems.forEach((it, j) => {
+      it.classList.toggle('is-active', j === valueIndex);
+      it.inert = j !== valueIndex;
+    });
+    clearTimeout(valueTimeout);
+    valueRunning = false;
+    valueElapsed = 0;
+    restartBar();
+    updateValueTimer();
+  };
+  // таймер на setTimeout, полоска — CSS-анимация; на паузе запоминаем, сколько прошло
+  const updateValueTimer = () => {
+    const shouldRun = !reduceMotion && !valueLocked && !valueHover && valueInView && !document.hidden && !$('dialog[open]');
+    if (shouldRun && !valueRunning) {
+      valueRunning = true;
+      valueStarted = performance.now();
+      valueTimeout = setTimeout(() => selectValue(valueIndex + 1), Math.max(0, VALUE_MS - valueElapsed));
+    } else if (!shouldRun && valueRunning) {
+      valueRunning = false;
+      clearTimeout(valueTimeout);
+      valueElapsed += performance.now() - valueStarted;
+    }
+    valueCard.classList.toggle('is-running', valueRunning);
+  };
+  const lockValues = () => {
+    valueLocked = true;
+    clearTimeout(unlockTimer);
+    valueCard.classList.add('is-locked');
+    updateValueTimer();
+  };
+  const unlockValues = (delay = 0) => {
+    clearTimeout(unlockTimer);
+    unlockTimer = setTimeout(() => {
+      if (!valueLocked) return;
+      valueLocked = false;
+      valueCard.classList.remove('is-locked');
+      selectValue(valueIndex + 1);
+    }, delay);
+  };
+  pills.forEach((pill, i) => pill.addEventListener('click', () => { selectValue(i); lockValues(); }));
+  // фокус ушёл из блока, мышь ушла или блок пропал с экрана — снова листаем
+  whyCard.addEventListener('focusout', (e) => { if (valueLocked && !whyCard.contains(e.relatedTarget)) unlockValues(4000); });
+  whyCard.addEventListener('mouseenter', () => { valueHover = true; clearTimeout(unlockTimer); updateValueTimer(); });
+  whyCard.addEventListener('mouseleave', () => { valueHover = false; if (valueLocked) unlockValues(6000); updateValueTimer(); });
+  document.addEventListener('visibilitychange', updateValueTimer);
+  $$('dialog').forEach((d) => d.addEventListener('close', updateValueTimer));
+  document.addEventListener('click', () => setTimeout(updateValueTimer, 0));
+  // ссылку на наблюдатель храним, иначе браузер может его собрать сборщиком мусора
+  const valueObserver = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
+    const entry = entries[entries.length - 1];
+    valueInView = entry.isIntersecting && entry.intersectionRatio >= 0.3;
+    if (!valueInView && valueLocked) unlockValues();
+    updateValueTimer();
+  }, { threshold: [0, 0.3] }) : null;
+  if (valueObserver) valueObserver.observe(whyCard);
+  else valueInView = true;
+  if (reduceMotion) valueCard.classList.add('is-locked');
+  selectValue(0);
 
   /* ---------- Дорожная карта ---------- */
   const stepButtons = $$('.step__btn');
@@ -375,8 +492,8 @@
     lbName.textContent = s.name;
     lbQuote.textContent = s.quote;
     lbCount.textContent = `${lbIndex + 1} / ${stickers.length}`;
-    lbDownload.href = s.src;
-    lbDownload.download = `mco-sticker-${s.id}.webp`;
+    lbDownload.href = `assets/stickers/mco-${s.id}.png`;
+    lbDownload.download = `MCO-${s.id}.png`;
     lbImg.classList.remove('from-left', 'from-right');
     void lbImg.offsetWidth;
     if (dir) lbImg.classList.add(dir > 0 ? 'from-right' : 'from-left');
@@ -420,13 +537,11 @@
     copyOrShow(`${text}\n${url}`, 'Ссылка скопирована — отправьте её друзьям');
   });
 
-  // ссылка на стикерпак: кнопки показываем, только когда адрес задан
-  const packUrl = (carousel && carousel.closest('[data-stickerpack-url]')?.dataset.stickerpackUrl || '').trim();
-  $$('[data-stickerpack-link]').forEach((a) => {
-    if (!packUrl) return;
-    a.href = packUrl;
-    a.hidden = false;
-  });
+  // браузер без поддержки download (часть встроенных браузеров) — откроем файл в новой вкладке,
+  // оттуда картинку можно сохранить долгим нажатием
+  if (!('download' in HTMLAnchorElement.prototype)) {
+    $$('a[download]').forEach((a) => { a.removeAttribute('download'); a.target = '_blank'; });
+  }
 
   /* ---------- Стикеры: бесконечная карусель ---------- */
   if (carousel) {
@@ -473,6 +588,7 @@
     let last = performance.now();
     let acc = 0;
     let glide = 0;
+    let carouselObserver = null;
     const hold = (ms = 3500) => { holdUntil = performance.now() + ms; };
 
     const setAutoplay = (on) => {
@@ -485,7 +601,8 @@
     playBtn.addEventListener('click', () => setAutoplay(!autoplay));
 
     if ('IntersectionObserver' in window) {
-      new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; }).observe(vp);
+      carouselObserver = new IntersectionObserver((entries) => { inView = entries[entries.length - 1].isIntersecting; });
+      carouselObserver.observe(vp);
     }
 
     const tick = (now) => {

@@ -143,7 +143,7 @@
       <button class="pill pill--5" type="button" aria-pressed="false" data-codex-key="Свобода." data-text="Пользуйтесь возможностями цифрового пространства свободно и с пользой — в рамках закона и с уважением к другим.">Развитие</button>
     </div>
     <div class="value-card" id="value-card" aria-live="polite">
-      <p class="value-card__hint"><svg aria-hidden="true"><use href="#i-cursor"/></svg>Нажмите на ценность на орбите, чтобы узнать о ней</p>
+      <span class="value-card__timer" aria-hidden="true"><span></span></span>
     </div>
     </div>
   </article>
@@ -152,8 +152,12 @@
     <div class="principles__head">
       <span class="chip">Кодекс этики</span>
       <h2 class="h2">Принципы цифровой среды</h2>
-      <p class="muted small">Что делать человеку и какие правила задать ИИ-агенту. Полный текст Кодекса — в&nbsp;разделе «Кодекс этики» выше.</p>
+      <p class="muted small">Краткие правила для человека и готовый промпт для ИИ-агента. Полный текст Кодекса — по кнопке справа.</p>
+    <div class="btn-pair btn-pair--head">
+      <button class="btn btn--outline" type="button" data-codex="">Полный Кодекс <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+      <button class="btn-icon" type="button" data-copy="tpl-codex" data-copied="Полный текст Кодекса скопирован" aria-label="Скопировать полный текст Кодекса" title="Скопировать полный текст Кодекса"><svg aria-hidden="true"><use href="#i-copy"/></svg></button>
     </div>
+  </div>
 
     <div class="principles__grid">
       <div class="sub sub--blue">
@@ -163,10 +167,10 @@
         </svg>
         <div class="sub__body">
           <h3 class="sub__title">Для человека</h3>
-          <p class="sub__text">Как безопасно и ответственно вести себя в&nbsp;цифровом мире и при работе с&nbsp;ИИ.</p>
+          <p class="sub__text">Краткие правила: как безопасно и ответственно вести себя в&nbsp;цифровом мире и при работе с&nbsp;ИИ.</p>
           <div class="btn-pair">
             <button class="btn btn--primary" type="button" data-open="rules-dialog">Читать правила <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
-            <button class="btn-icon" type="button" data-copy="tpl-human-rules" data-copied="Правила скопированы в буфер обмена" aria-label="Скопировать правила" title="Скопировать правила"><svg aria-hidden="true"><use href="#i-copy"/></svg></button>
+            <button class="btn-icon" type="button" data-copy="tpl-human-rules" data-copied="Краткие правила скопированы" aria-label="Скопировать краткие правила" title="Скопировать краткие правила"><svg aria-hidden="true"><use href="#i-copy"/></svg></button>
           </div>
         </div>
       </div>
@@ -199,11 +203,11 @@
       <div class="risks__panel" id="risks-panel" role="tabpanel" aria-live="polite">
         <div class="risk-card risk-card--human">
           <span class="risk-card__label"><svg aria-hidden="true" viewBox="0 0 40 40"><circle cx="20" cy="13" r="7" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M6 36c1-8 7-12 14-12s13 4 14 12z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/></svg>Я — человек</span>
-          <p data-role="human"></p>
+          <div class="stack" data-role="human"></div>
         </div>
         <div class="risk-card risk-card--ai">
           <span class="risk-card__label"><svg aria-hidden="true" viewBox="0 0 40 40"><rect x="7" y="11" width="26" height="22" rx="7" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M20 11V6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><circle cx="15" cy="21" r="2.6" fill="currentColor"/><circle cx="25" cy="21" r="2.6" fill="currentColor"/></svg>Я — ИИ</span>
-          <p data-role="ai"></p>
+          <div class="stack" data-role="ai"></div>
         </div>
       </div>
       <div class="risks__nav">
@@ -246,8 +250,7 @@
   </article>
 
   <!-- ===== РЕЗУЛЬТАТЫ: СТИКЕРПАК ===== -->
-  <!-- Ссылка на стикерпак: впишите адрес в data-stickerpack-url — кнопки «Скачать стикерпак» появятся сами -->
-  <section class="card results reveal" id="results" data-stickerpack-url="">
+  <section class="card results reveal" id="results">
     <div class="results__head">
       <div>
         <span class="chip">Результаты</span>
@@ -255,7 +258,7 @@
       </div>
       <div class="results__aside">
         <p class="muted small">Исторические личности говорят о правилах цифровой среды — коротко, с юмором и по делу. Делитесь стикерами с друзьями.</p>
-        <a class="btn btn--primary btn--sm" data-stickerpack-link href="#" target="_blank" rel="noopener" hidden>Скачать стикерпак <svg aria-hidden="true"><use href="#i-download"/></svg></a>
+        <a class="btn btn--primary btn--sm" href="assets/stickers/mco-stickerpack.zip" download="MCO-stickerpack.zip">Скачать стикерпак · PNG <svg aria-hidden="true"><use href="#i-download"/></svg></a>
       </div>
     </div>
     <div class="carousel" id="sticker-carousel">
@@ -292,14 +295,13 @@
       <span class="chip">О проекте</span>
       <h2 class="h2 h2--sm">О команде МЦО</h2>
       <p class="muted small">Мы — команда Молодёжного цифрового омбудсмена. Создаём проекты, которые помогают молодёжи уверенно чувствовать себя в&nbsp;цифровой среде.</p>
-      <a class="btn btn--outline btn--sm" href="#top">Узнать больше о МЦО <svg><use href="#i-arrow"/></svg></a>
+      <a class="btn btn--outline btn--sm" data-link="site" href="" target="_blank" rel="noopener">Узнать больше о МЦО <svg><use href="#i-arrow"/></svg></a>
     </div>
 
     <ul class="socials" aria-label="Мы в соцсетях">
-      <li><a href="#" aria-label="ВКонтакте"><svg viewBox="0 0 24 24"><path d="M12.8 17.2C7 17.2 3.7 13.2 3.6 6.6h2.9c.1 4.8 2.2 6.9 3.9 7.3V6.6h2.7v4.2c1.7-.2 3.4-2.1 4-4.2h2.7a8 8 0 0 1-3.7 5.2 8.3 8.3 0 0 1 4.3 5.4h-3c-.6-2-2.2-3.6-4.3-3.8v3.8z" fill="currentColor"/></svg></a></li>
-      <li><a href="#" aria-label="Telegram"><svg viewBox="0 0 24 24"><path d="M20.7 4.3 3.6 10.9c-1.2.5-1.1 1.2-.2 1.5l4.4 1.4 1.7 5.2c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.1-2.1 4.4 3.3c.8.4 1.4.2 1.6-.8l2.9-13.6c.3-1.2-.4-1.7-1.6-1.9zM9.2 13.4l8.6-5.4c.4-.3.8-.1.5.2l-7.1 6.4-.3 3z" fill="currentColor"/></svg></a></li>
-      <li><a href="#" aria-label="Видео"><svg viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="4" fill="currentColor"/><path d="m10 9 5 3-5 3z" fill="#fff"/></svg></a></li>
-      <li><a href="#" aria-label="Дзен"><svg viewBox="0 0 24 24"><path d="M12 3c.2 4.9 4.1 8.8 9 9-4.9.2-8.8 4.1-9 9-.2-4.9-4.1-8.8-9-9 4.9-.2 8.8-4.1 9-9z" fill="currentColor"/></svg></a></li>
+      <li><a data-link="vk" href="" target="_blank" rel="noopener" aria-label="ВКонтакте" title="ВКонтакте"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.8 17.2C7 17.2 3.7 13.2 3.6 6.6h2.9c.1 4.8 2.2 6.9 3.9 7.3V6.6h2.7v4.2c1.7-.2 3.4-2.1 4-4.2h2.7a8 8 0 0 1-3.7 5.2 8.3 8.3 0 0 1 4.3 5.4h-3c-.6-2-2.2-3.6-4.3-3.8v3.8z" fill="currentColor"/></svg></a></li>
+      <li><a data-link="telegram" href="" target="_blank" rel="noopener" aria-label="Telegram" title="Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.7 4.3 3.6 10.9c-1.2.5-1.1 1.2-.2 1.5l4.4 1.4 1.7 5.2c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.1-2.1 4.4 3.3c.8.4 1.4.2 1.6-.8l2.9-13.6c.3-1.2-.4-1.7-1.6-1.9zM9.2 13.4l8.6-5.4c.4-.3.8-.1.5.2l-7.1 6.4-.3 3z" fill="currentColor"/></svg></a></li>
+      <li><a data-link="max" href="" target="_blank" rel="noopener" aria-label="MAX" title="MAX"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2a8.8 8.8 0 0 0-7.7 13l-1 3.9 4-1a8.8 8.8 0 1 0 4.7-15.9z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8 15V9.4l4 3.4 4-3.4V15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
     </ul>
 
     <div class="team__brand">
@@ -335,7 +337,7 @@
     <h2 class="h2 h2--sm" id="rules-title">Правила для человека</h2>
     <p class="muted small">Как безопасно и осознанно работать с ИИ.</p>
     <div class="dialog__tools">
-      <button class="btn btn--primary btn--sm" type="button" data-copy="tpl-human-rules" data-copied="Правила скопированы в буфер обмена">Скопировать правила <svg aria-hidden="true"><use href="#i-copy"/></svg></button>
+      <button class="btn btn--primary btn--sm" type="button" data-copy="tpl-human-rules" data-copied="Краткие правила скопированы">Скопировать правила <svg aria-hidden="true"><use href="#i-copy"/></svg></button>
       <button class="link link--sm" type="button" data-codex="">Полный текст Кодекса <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
     </div>
   </div>
@@ -378,8 +380,8 @@
   <div class="lightbox__bar">
     <span class="lightbox__count" id="lb-count"></span>
     <div class="lightbox__actions">
-      <a class="btn btn--outline btn--sm" id="lb-download" href="#" download>Скачать <svg aria-hidden="true"><use href="#i-download"/></svg></a>
-      <a class="btn btn--outline btn--sm" data-stickerpack-link href="#" target="_blank" rel="noopener" hidden>Весь стикерпак <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a class="btn btn--outline btn--sm" id="lb-download" href="#" download>Скачать PNG <svg aria-hidden="true"><use href="#i-download"/></svg></a>
+      <a class="btn btn--outline btn--sm" href="assets/stickers/mco-stickerpack.zip" download="MCO-stickerpack.zip">Весь стикерпак <svg aria-hidden="true"><use href="#i-download"/></svg></a>
       <button class="btn btn--primary btn--sm" id="lb-share" type="button">Поделиться <svg aria-hidden="true"><use href="#i-share"/></svg></button>
     </div>
   </div>
@@ -388,6 +390,16 @@
 <button class="to-top" id="to-top" type="button" aria-label="Наверх"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- Внешние ссылки: впишите адреса — пока поле пустое, кнопка на сайте скрыта -->
+<script type="application/json" id="site-links">
+{
+  "site": "",
+  "vk": "",
+  "telegram": "",
+  "max": ""
+}
+</script>
 
 <!-- Правила «человек / ИИ» — единый источник для блока тем, модалок и копирования -->
 <script type="application/json" id="ai-rules">
