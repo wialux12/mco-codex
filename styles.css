@@ -363,6 +363,7 @@ button.link { border: 0; background: none; padding: 0; }
 .risk-card--ai .risk-card__label { color: #4a47c9; }
 .risk-card__label svg { width: 20px; height: 20px; }
 .risk-card p { font-size: 15px; line-height: 1.55; color: var(--ink); }
+.risk-note { display: block; margin-top: 12px; padding-top: 10px; border-top: 1px dashed #cdc8f3; font-size: 13.5px; line-height: 1.5; font-style: italic; color: var(--muted); }
 .risks__nav { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 16px; }
 .risks__nav .carousel__btn[data-risk-step="-1"] svg { transform: scaleX(-1); }
 .risks__count { min-width: 52px; text-align: center; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }

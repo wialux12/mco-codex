@@ -311,6 +311,13 @@
         p.append(b, ` — ${r.about || ''}`);
       } else {
         p.textContent = r[role];
+        // пояснение к промпту — только на сайте, в копируемый промпт не попадает
+        if (role === 'ai' && r.aiNote) {
+          const note = document.createElement('span');
+          note.className = 'risk-note';
+          note.textContent = r.aiNote;
+          p.appendChild(note);
+        }
       }
       stack.appendChild(p);
       return p;
