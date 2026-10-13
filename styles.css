@@ -439,10 +439,21 @@ button.link { border: 0; background: none; padding: 0; }
 
 /* ========== Стикерпак ========== */
 .results { overflow: hidden; padding: 30px 34px 10px; }
-.results__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
-.results__head .h2 { margin-bottom: 0; }
-.results__head p { max-width: 420px; }
-.results__aside { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.results__head .h2 { margin-bottom: 6px; }
+.results__lead { font-size: 15px; }
+/* блок «делитесь / скачивайте» — справа в ряду управления каруселью */
+.results__cta { display: flex; align-items: center; gap: 18px; margin-left: auto; }
+.results__cta p { display: grid; gap: 2px; text-align: right; font-size: 13px; color: var(--muted); }
+.results__cta b { font-size: 14.5px; font-weight: 600; color: var(--ink); }
+.results__cta .btn { min-height: 46px; padding: 10px 24px; }
+/* летящий стикер при скачивании */
+.fly-sticker { position: fixed; z-index: 300; margin: 0; object-fit: contain; pointer-events: none; transform-origin: center; filter: drop-shadow(0 12px 22px rgba(30, 50, 140, .25)); will-change: transform, opacity; }
+.fly-target {
+  position: fixed; z-index: 301; top: 8px; right: 16px; width: 36px; height: 36px; border-radius: 50%;
+  display: grid; place-items: center; color: #fff; background: var(--blue);
+  box-shadow: 0 8px 20px rgba(47, 102, 245, .4); pointer-events: none;
+}
+.fly-target svg { width: 18px; height: 18px; }
 .carousel { margin: 8px -34px 0; position: relative; }
 .carousel__viewport {
   overflow-x: auto; overflow-y: hidden;
@@ -467,7 +478,7 @@ button.link { border: 0; background: none; padding: 0; }
   user-select: none; -webkit-user-drag: none;
 }
 .carousel__item:hover { transform: scale(1.05) rotate(-1.5deg); }
-.carousel__controls { display: flex; align-items: center; gap: 10px; padding: 0 34px 10px; }
+.carousel__controls { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 10px; padding: 0 34px 14px; }
 .carousel__btn, .carousel__play {
   width: 42px; height: 42px; flex: none; border-radius: 50%;
   display: grid; place-items: center;
@@ -741,7 +752,10 @@ button.link { border: 0; background: none; padding: 0; }
   .carousel__item:hover { transform: none; }
   .carousel__controls { padding: 0 18px 4px; flex-wrap: wrap; }
   .carousel__hint { flex-basis: 100%; margin: 4px 0 0; }
-  .results__head { gap: 10px; }
+  .results__lead { font-size: 14.5px; }
+  .results__cta { flex-basis: 100%; flex-direction: column; align-items: stretch; gap: 12px; margin: 14px 0 6px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .results__cta p { text-align: left; }
+  .results__cta .btn { justify-content: center; }
 
   .team__brand { flex-direction: column; align-items: flex-start; gap: 12px; }
   .dialog { padding: 26px 20px 22px; }

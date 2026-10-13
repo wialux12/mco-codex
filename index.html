@@ -252,14 +252,9 @@
   <!-- ===== РЕЗУЛЬТАТЫ: СТИКЕРПАК ===== -->
   <section class="card results reveal" id="results">
     <div class="results__head">
-      <div>
-        <span class="chip">Результаты</span>
-        <h2 class="h2">Стикерпак <span class="accent">«Великие о цифре»</span></h2>
-      </div>
-      <div class="results__aside">
-        <p class="muted small">Исторические личности говорят о правилах цифровой среды — коротко, с юмором и по делу. Делитесь стикерами с друзьями.</p>
-        <a class="btn btn--primary btn--sm" href="assets/stickers/mco-stickerpack.zip" download="MCO-stickerpack.zip">Скачать стикерпак · PNG <svg aria-hidden="true"><use href="#i-download"/></svg></a>
-      </div>
+      <span class="chip">Результаты</span>
+      <h2 class="h2">Стикерпак <span class="accent">«Великие о цифре»</span></h2>
+      <p class="muted results__lead">Исторические личности говорят о правилах цифровой среды — коротко, с&nbsp;юмором и&nbsp;по делу.</p>
     </div>
     <div class="carousel" id="sticker-carousel">
       <div class="carousel__viewport" tabindex="0" role="region" aria-roledescription="карусель" aria-label="Стикерпак — листайте влево и вправо">
@@ -280,6 +275,10 @@
         <button class="carousel__btn" type="button" data-dir="1" aria-label="Следующий стикер"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
         <button class="carousel__play" type="button" aria-pressed="true" aria-label="Остановить автопрокрутку"><span aria-hidden="true"></span></button>
         <p class="carousel__hint">Листайте влево и вправо или нажмите на&nbsp;стикер, чтобы увеличить</p>
+        <div class="results__cta">
+          <p><b>Делитесь стикерами с&nbsp;друзьями</b><span>9 стикеров в&nbsp;PNG одним архивом</span></p>
+          <a class="btn btn--primary" href="assets/stickers/mco-stickerpack.zip" download="MCO-stickerpack.zip" data-fly="pack">Скачать стикерпак <svg aria-hidden="true"><use href="#i-download"/></svg></a>
+        </div>
       </div>
     </div>
   </section>
@@ -380,8 +379,8 @@
   <div class="lightbox__bar">
     <span class="lightbox__count" id="lb-count"></span>
     <div class="lightbox__actions">
-      <a class="btn btn--outline btn--sm" id="lb-download" href="#" download>Скачать PNG <svg aria-hidden="true"><use href="#i-download"/></svg></a>
-      <a class="btn btn--outline btn--sm" href="assets/stickers/mco-stickerpack.zip" download="MCO-stickerpack.zip">Весь стикерпак <svg aria-hidden="true"><use href="#i-download"/></svg></a>
+      <a class="btn btn--outline btn--sm" id="lb-download" href="#" download data-fly="current">Скачать PNG <svg aria-hidden="true"><use href="#i-download"/></svg></a>
+      <a class="btn btn--outline btn--sm" href="assets/stickers/mco-stickerpack.zip" download="MCO-stickerpack.zip" data-fly="current">Весь стикерпак <svg aria-hidden="true"><use href="#i-download"/></svg></a>
       <button class="btn btn--primary btn--sm" id="lb-share" type="button">Поделиться <svg aria-hidden="true"><use href="#i-share"/></svg></button>
     </div>
   </div>

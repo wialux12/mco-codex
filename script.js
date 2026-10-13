@@ -537,6 +537,67 @@
     copyOrShow(`${text}\n${url}`, 'Ссылка скопирована — отправьте её друзьям');
   });
 
+  /* ---------- Анимация скачивания: стикер улетает в правый верхний угол ---------- */
+  const flyToCorner = (sources) => {
+    const host = $('dialog[open]') || document.body;   // поверх открытой модалки
+    const endX = window.innerWidth - 34;
+    const endY = 26;
+    // значок-приёмник в углу
+    const target = document.createElement('span');
+    target.className = 'fly-target';
+    target.setAttribute('aria-hidden', 'true');
+    target.innerHTML = '<svg><use href="#i-download"/></svg>';
+    host.appendChild(target);
+    let longest = 0;
+    sources.forEach((src, i) => {
+      const r = src.getBoundingClientRect();
+      if (!r.width || !r.height) return;
+      const clone = src.cloneNode(false);
+      clone.removeAttribute('id');
+      clone.className = 'fly-sticker';
+      clone.alt = '';
+      clone.setAttribute('aria-hidden', 'true');
+      Object.assign(clone.style, { left: `${r.left}px`, top: `${r.top}px`, width: `${r.width}px`, height: `${r.height}px` });
+      host.appendChild(clone);
+      const dx = endX - (r.left + r.width / 2);
+      const dy = endY - (r.top + r.height / 2);
+      const delay = i * 110;
+      longest = Math.max(longest, delay + 950);
+      clone.animate([
+        { transform: 'translate(0, 0) scale(1) rotate(0deg)', opacity: 1 },
+        { transform: `translate(${dx * 0.25}px, ${dy * 0.2 - 40}px) scale(.82) rotate(-5deg)`, opacity: 1, offset: 0.3 },
+        { transform: `translate(${dx}px, ${dy}px) scale(.05) rotate(-16deg)`, opacity: 0.3 },
+      ], { duration: 950, delay, easing: 'cubic-bezier(.55, 0, .35, 1)', fill: 'both' }).onfinish = () => clone.remove();
+    });
+    target.animate([
+      { transform: 'scale(.4)', opacity: 0 },
+      { transform: 'scale(1)', opacity: 1, offset: 0.2 },
+      { transform: 'scale(1)', opacity: 1, offset: 0.75 },
+      { transform: 'scale(1.25)', opacity: 1, offset: 0.85 },
+      { transform: 'scale(.6)', opacity: 0 },
+    ], { duration: longest + 700, easing: 'ease-out', fill: 'both' }).onfinish = () => target.remove();
+  };
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a[data-fly]');
+    if (!link) return;
+    const isPack = /stickerpack\.zip$/.test(link.getAttribute('href') || '');
+    showToast(isPack ? 'Стикерпак скачивается…' : 'Стикер скачивается…');
+    if (reduceMotion) return;
+    let sources = [];
+    if (link.dataset.fly === 'current') {
+      sources = [$('#lb-img')];
+    } else {
+      // стикеры, которые сейчас видны в карусели
+      const vp = $('.carousel__viewport');
+      const box = vp.getBoundingClientRect();
+      sources = $$('.carousel__item img', vp).filter((img) => {
+        const r = img.getBoundingClientRect();
+        return r.right > box.left + 20 && r.left < box.right - 20;
+      }).slice(0, 4);
+    }
+    flyToCorner(sources.filter(Boolean));
+  });
+
   // браузер без поддержки download (часть встроенных браузеров) — откроем файл в новой вкладке,
   // оттуда картинку можно сохранить долгим нажатием
   if (!('download' in HTMLAnchorElement.prototype)) {
