@@ -352,6 +352,10 @@ button.link { border: 0; background: none; padding: 0; }
 .stack > p { grid-area: 1 / 1; opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity .45s var(--ease), transform .45s var(--ease), visibility .45s; }
 .stack > p.is-active { opacity: 1; visibility: visible; transform: none; }
 .risk-card--ai .stack > p { transition-delay: .05s; }
+.risk-about { grid-column: 1 / -1; padding: 4px 2px 0; }
+.risk-about .stack > p { font-size: 16px; line-height: 1.5; color: var(--ink); }
+.risk-about b { font-family: var(--font-head); font-weight: 600; color: var(--blue); }
+.risk-about__how { margin-top: 14px; font-size: 12.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 .risk-card { padding: 20px 22px; border-radius: 18px; min-height: 120px; }
 .risk-card--human { background: var(--card-blue); }
 .risk-card--ai { background: var(--card-lav); }
@@ -760,6 +764,7 @@ button.link { border: 0; background: none; padding: 0; }
   .risks__tabs { flex-wrap: nowrap; margin: 14px -18px 0; padding: 4px 18px 6px; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity; }
   .risk-card { padding: 16px 18px; min-height: 0; }
   .risk-card p { font-size: 14.5px; }
+  .risk-about .stack > p { font-size: 15px; }
   .sub { flex-direction: column; gap: 10px; padding: 18px 16px; }
   .sub__title { margin-top: 0; }
   .btn-pair { width: 100%; }

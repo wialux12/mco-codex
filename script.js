@@ -300,11 +300,18 @@
     void riskPanel.offsetWidth;
     riskPanel.classList.add('is-in');
   };
-  const riskStacks = ['human', 'ai'].map((role) => {
+  const riskStacks = ['about', 'human', 'ai'].map((role) => {
     const stack = $(`[data-role="${role}"]`, riskPanel);
     return aiRules.map((r) => {
       const p = document.createElement('p');
-      p.textContent = r[role];
+      if (role === 'about') {
+        // «Тема — описание»: название выделено, описание из данных
+        const b = document.createElement('b');
+        b.textContent = r.topic;
+        p.append(b, ` — ${r.about || ''}`);
+      } else {
+        p.textContent = r[role];
+      }
       stack.appendChild(p);
       return p;
     });
