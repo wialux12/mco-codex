@@ -4,6 +4,40 @@
   const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* ---------- Плавность: своя кривая и анимация прокрутки ---------- */
+  const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  // анимирует числовое значение; возвращает функцию отмены
+  const tween = (from, to, duration, apply, done) => {
+    if (reduceMotion || Math.abs(to - from) < 1) { apply(to); if (done) done(); return () => {}; }
+    const t0 = performance.now();
+    let raf = 0;
+    const step = (now) => {
+      const p = Math.min(1, (now - t0) / duration);
+      apply(from + (to - from) * easeInOut(p));
+      if (p < 1) raf = requestAnimationFrame(step);
+      else if (done) done();
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  };
+  // длительность зависит от расстояния: близко — быстро, далеко — не дольше 1.2 с
+  const scrollDuration = (dist) => Math.min(1200, Math.max(420, 280 + Math.abs(dist) * 0.32));
+  let cancelPageScroll = () => {};
+  const smoothScrollTo = (y, done) => {
+    cancelPageScroll();
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const target = Math.max(0, Math.min(max, y));
+    const from = window.scrollY;
+    cancelPageScroll = tween(from, target, scrollDuration(target - from), (v) => window.scrollTo({ top: v, behavior: 'instant' }), done);
+  };
+  // пользователь сам крутит страницу — не мешаем ему
+  ['wheel', 'touchstart', 'keydown'].forEach((ev) => window.addEventListener(ev, () => cancelPageScroll(), { passive: true }));
+  const smoothScrollEl = (el, prop, to) => {
+    if (el._cancelTween) el._cancelTween();
+    const from = el[prop];
+    el._cancelTween = tween(from, to, Math.min(700, Math.max(320, Math.abs(to - from) * 0.6)), (v) => { el[prop] = v; });
+  };
+
   const header = $('#header');
   const burger = $('#burger');
   const nav = $('#nav');
@@ -17,7 +51,31 @@
   };
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
-  toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' }));
+  toTop.addEventListener('click', () => smoothScrollTo(0));
+
+  /* ---------- Якорные ссылки: плавная прокрутка с поправкой на шапку ---------- */
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a[href^="#"]');
+    if (!link || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey) return;
+    const id = link.getAttribute('href').slice(1);
+    if (!id) return;
+    const target = id === 'top' ? document.body : document.getElementById(id);
+    if (!target) return;
+    e.preventDefault();
+    const offset = header.offsetHeight + 14;
+    // блок может быть ещё сдвинут анимацией появления — считаем его итоговое место
+    const shift = new DOMMatrixReadOnly(getComputedStyle(target).transform === 'none' ? undefined : getComputedStyle(target).transform).m42 || 0;
+    const y = id === 'top' ? 0 : target.getBoundingClientRect().top - shift + window.scrollY - offset;
+    history.pushState(null, '', `#${id}`);
+    smoothScrollTo(y, () => {
+      if (id === 'top') return;
+      if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+      target.focus({ preventScroll: true });
+      target.classList.remove('is-arrived');
+      void target.offsetWidth;
+      target.classList.add('is-arrived');
+    });
+  });
 
   /* ---------- Внешние ссылки из #site-links (пустая ссылка — кнопка скрыта) ---------- */
   const siteLinks = (() => {
@@ -170,10 +228,17 @@
   });
 
   /* ---------- Модальные окна ---------- */
+  const closeDialog = (dlg) => {
+    if (!dlg.open || dlg.classList.contains('is-closing')) return;
+    if (reduceMotion) { dlg.close(); return; }
+    dlg.classList.add('is-closing');
+    setTimeout(() => { dlg.classList.remove('is-closing'); dlg.close(); }, 200);
+  };
   $$('dialog').forEach((dlg) => {
     dlg.addEventListener('click', (e) => {
-      if (e.target === dlg || e.target.closest('[data-close]')) dlg.close();
+      if (e.target === dlg || e.target.closest('[data-close]')) closeDialog(dlg);
     });
+    dlg.addEventListener('cancel', (e) => { e.preventDefault(); closeDialog(dlg); });
   });
 
   /* ---------- Правила для человека и промпт: наполнение модалок ---------- */
@@ -226,7 +291,8 @@
     const active = riskButtons[riskIndex];
     riskPanel.setAttribute('aria-labelledby', active.id);
     // прокручиваем ленту тем только по горизонтали, чтобы страница не прыгала
-    riskTabs.scrollTo({ left: active.offsetLeft - riskTabs.clientWidth / 2 + active.offsetWidth / 2, behavior: reduceMotion ? 'auto' : 'smooth' });
+    const tabsMax = riskTabs.scrollWidth - riskTabs.clientWidth;
+    if (tabsMax > 0) smoothScrollEl(riskTabs, 'scrollLeft', Math.max(0, Math.min(tabsMax, active.offsetLeft - riskTabs.clientWidth / 2 + active.offsetWidth / 2)));
     if (focus) active.focus({ preventScroll: true });
     riskStacks.forEach((list) => list.forEach((p, j) => p.classList.toggle('is-active', j === riskIndex)));
     riskCount.textContent = `${riskIndex + 1} / ${aiRules.length}`;
@@ -320,7 +386,7 @@
     codexDialog.addEventListener('close', () => { codexBody.scrollTop = 0; });
 
     const scrollCodexTo = (node, flash) => {
-      codexBody.scrollTo({ top: Math.max(0, node.offsetTop - 12), behavior: reduceMotion ? 'auto' : 'smooth' });
+      smoothScrollEl(codexBody, 'scrollTop', Math.min(codexBody.scrollHeight - codexBody.clientHeight, Math.max(0, node.offsetTop - 12)));
       if (flash) {
         node.classList.remove('is-flash');
         void node.offsetWidth;
@@ -710,7 +776,7 @@
       const target = dir > 0
         ? items.find((it) => it.offsetLeft > x + 4)
         : items.slice().reverse().find((it) => it.offsetLeft < x - 4);
-      if (target) vp.scrollTo({ left: target.offsetLeft - pad, behavior: reduceMotion ? 'auto' : 'smooth' });
+      if (target) smoothScrollEl(vp, 'scrollLeft', target.offsetLeft - pad);
     };
     $$('.carousel__btn', carousel).forEach((b) => b.addEventListener('click', () => go(Number(b.dataset.dir))));
     vp.addEventListener('keydown', (e) => {
