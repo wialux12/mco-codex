@@ -2,7 +2,40 @@
   document.documentElement.classList.remove('no-js');
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const root = document.documentElement;
+  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  // анимации выключены, если так настроена система или включена версия для слабовидящих
+  let reduceMotion = motionQuery.matches || root.dataset.a11y === 'on';
+
+  /* ---------- Тёмная тема и версия для слабовидящих ---------- */
+  const store = {
+    get: (k) => { try { return localStorage.getItem(k); } catch { return null; } },
+    set: (k, v) => { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch { /* приватный режим */ } },
+  };
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
+  const applyPref = (kind, on, save) => {
+    if (kind === 'theme') {
+      if (on) root.dataset.theme = 'dark'; else delete root.dataset.theme;
+      if (themeMeta) themeMeta.content = on ? '#0c1124' : '#f6f7fd';
+      if (save) store.set('mco-theme', on ? 'dark' : null);
+    } else {
+      if (on) root.dataset.a11y = 'on'; else delete root.dataset.a11y;
+      if (save) store.set('mco-a11y', on ? 'on' : null);
+      reduceMotion = motionQuery.matches || on;
+      document.dispatchEvent(new CustomEvent('mco:motion'));
+    }
+    document.querySelectorAll(`[data-toggle="${kind}"]`).forEach((b) => b.setAttribute('aria-pressed', String(on)));
+  };
+  applyPref('theme', root.dataset.theme === 'dark', false);
+  applyPref('a11y', root.dataset.a11y === 'on', false);
+  document.addEventListener('click', (e) => {
+    const t = e.target.closest('[data-toggle]');
+    if (!t) return;
+    const kind = t.dataset.toggle;
+    const on = kind === 'theme' ? root.dataset.theme !== 'dark' : root.dataset.a11y !== 'on';
+    applyPref(kind, on, true);
+    if (typeof track === 'function') track(`${kind}_${on ? 'on' : 'off'}`);
+  });
 
   /* ---------- Плавность: своя кривая и анимация прокрутки ---------- */
   const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
@@ -103,6 +136,47 @@
     return update;
   };
   window.mcoEdgeFade = edgeFade;
+
+  /* ---------- Яндекс.Метрика: включается, если в #site-links задан номер счётчика ---------- */
+  const metrikaId = Number(siteLinks.metrika) || 0;
+  let metrikaReady = false;
+  function track(goal) {
+    if (metrikaReady && window.ym) window.ym(metrikaId, 'reachGoal', goal);
+  }
+  const loadMetrika = () => {
+    if (!metrikaId || metrikaReady) return;
+    /* eslint-disable */
+    (function (m, e, t, r, i, k, a) { m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments); }; m[i].l = 1 * new Date();
+      k = e.createElement(t); a = e.getElementsByTagName(t)[0]; k.async = 1; k.src = r; a.parentNode.insertBefore(k, a); })(window, document, 'script', `https://mc.yandex.ru/metrika/tag.js?id=${metrikaId}`, 'ym');
+    /* eslint-enable */
+    // вебвизор выключен намеренно: аудитория сайта — дети и подростки
+    window.ym(metrikaId, 'init', { ssr: true, clickmap: true, trackLinks: true, accurateTrackBounce: true, webvisor: false, referrer: document.referrer, url: location.href });
+    metrikaReady = true;
+  };
+  if (metrikaId) {
+    const consent = store.get('mco-metrika');
+    if (consent === 'yes') loadMetrika();
+    else if (consent !== 'no') {
+      // короткое уведомление внизу; без согласия счётчик не грузится
+      const bar = document.createElement('div');
+      bar.className = 'consent';
+      bar.setAttribute('role', 'region');
+      bar.setAttribute('aria-label', 'Уведомление о статистике');
+      bar.innerHTML = '<p>Мы используем Яндекс.Метрику и cookie, чтобы понимать, чем сайт полезен. Персональные данные мы не собираем.</p>'
+        + '<div class="consent__btns"><button class="btn btn--primary btn--sm" type="button" data-consent="yes">Хорошо</button>'
+        + '<button class="btn btn--outline btn--sm" type="button" data-consent="no">Не нужно</button></div>';
+      document.body.appendChild(bar);
+      requestAnimationFrame(() => bar.classList.add('is-visible'));
+      bar.addEventListener('click', (e) => {
+        const b = e.target.closest('[data-consent]');
+        if (!b) return;
+        store.set('mco-metrika', b.dataset.consent);
+        if (b.dataset.consent === 'yes') loadMetrika();
+        bar.classList.remove('is-visible');
+        setTimeout(() => bar.remove(), 400);
+      });
+    }
+  }
 
   /* ---------- Мобильное меню ---------- */
   const setMenu = (open) => {
@@ -205,6 +279,7 @@
       if (!tpl) return;
       const fallback = copyBtn.dataset.copy === 'tpl-codex' ? 'Кодекс скопирован в буфер обмена' : 'Скопировано в буфер обмена';
       copyOrShow(tpl.content.textContent.trim(), copyBtn.dataset.copied || fallback);
+      track(`copy_${copyBtn.dataset.copy.replace('tpl-', '')}`);
       copyBtn.classList.add('is-copied');
       setTimeout(() => copyBtn.classList.remove('is-copied'), 1600);
       return;
@@ -410,6 +485,7 @@
 
     // открыть Кодекс (опционально — сразу на нужном пункте)
     const openCodex = (key) => {
+      track('open_codex');
       codexDialog.showModal();
       codexBody.scrollTop = 0;
       updateCodexProgress();
@@ -431,9 +507,10 @@
   const valueItems = pills.map((pill) => {
     const item = document.createElement('div');
     item.className = 'value-card__item';
+    ['--c', '--ct', '--ctd'].forEach((v) => item.style.setProperty(v, pill.style.getPropertyValue(v)));
     const title = document.createElement('h3');
     title.className = 'value-card__title';
-    title.textContent = pill.textContent;
+    title.textContent = pill.textContent.trim();
     const text = document.createElement('p');
     text.textContent = pill.dataset.text;
     const more = document.createElement('button');
@@ -498,11 +575,13 @@
     unlockTimer = setTimeout(() => {
       if (!valueLocked) return;
       valueLocked = false;
+      valueCard.setAttribute('aria-live', 'off');
       valueCard.classList.remove('is-locked');
       selectValue(valueIndex + 1);
     }, delay);
   };
-  pills.forEach((pill, i) => pill.addEventListener('click', () => { selectValue(i); lockValues(); }));
+  valueCard.setAttribute('aria-live', 'off');
+  pills.forEach((pill, i) => pill.addEventListener('click', () => { valueCard.setAttribute('aria-live', 'polite'); selectValue(i); lockValues(); }));
   // фокус ушёл из блока, мышь ушла или блок пропал с экрана — снова листаем
   whyCard.addEventListener('focusout', (e) => { if (valueLocked && !whyCard.contains(e.relatedTarget)) unlockValues(4000); });
   whyCard.addEventListener('mouseenter', () => { valueHover = true; clearTimeout(unlockTimer); updateValueTimer(); });
@@ -520,6 +599,10 @@
   if (valueObserver) valueObserver.observe(whyCard);
   else valueInView = true;
   if (reduceMotion) valueCard.classList.add('is-locked');
+  document.addEventListener('mco:motion', () => {
+    valueCard.classList.toggle('is-locked', reduceMotion || valueLocked);
+    updateValueTimer();
+  });
   selectValue(0);
 
   /* ---------- Дорожная карта ---------- */
@@ -658,10 +741,15 @@
     ], { duration: longest + 700, easing: 'ease-out', fill: 'both' }).onfinish = () => target.remove();
   };
   document.addEventListener('click', (e) => {
+    const t = e.target.closest('[data-track]');
+    if (t) track(t.dataset.track);
+  });
+  document.addEventListener('click', (e) => {
     const link = e.target.closest('a[data-fly]');
     if (!link) return;
     const isPack = /stickerpack\.zip$/.test(link.getAttribute('href') || '');
     showToast(isPack ? 'Стикерпак скачивается…' : 'Стикер скачивается…');
+    track(isPack ? 'download_pack' : 'download_sticker');
     if (reduceMotion) return;
     let sources = [];
     if (link.dataset.fly === 'current') {
@@ -739,6 +827,7 @@
       playBtn.classList.toggle('is-paused', !on);
     };
     setAutoplay(autoplay);
+    document.addEventListener('mco:motion', () => setAutoplay(!reduceMotion));
     playBtn.addEventListener('click', () => setAutoplay(!autoplay));
 
     if ('IntersectionObserver' in window) {
